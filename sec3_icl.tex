@@ -45,14 +45,14 @@
 \begin{frame}{In-context learning, live: two examples change the answer}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
-\textbf{Demo 1 --- letter manipulation}
+\textbf{Demo 1: letter manipulation}
 \begin{userbox}Swap the second and the penultimate letter of the following word: \texttt{pothyn}\end{userbox}
 \begin{modelbox}[badred]\texttt{pohtyn} \quad \bad\end{modelbox}
 \begin{userbox}Directly answer the last one (swapping the second and the penultimate letter):\\ \texttt{tarehd} $\to$ \texttt{thread}, \; \texttt{revir} $\to$ \texttt{river}, \; \texttt{pothyn} $\to$\end{userbox}
 \begin{modelbox}[okgreen]\texttt{python} \quad \ok\end{modelbox}
 \end{column}
 \begin{column}{0.49\textwidth}
-\textbf{Demo 2 --- counting letters}
+\textbf{Demo 2: counting letters}
 \begin{userbox}How many `r' letters are there in the following word: ``strawberry''?\end{userbox}
 \begin{modelbox}[badred]There are 2 `r' letters in ``strawberry''. \quad \bad\end{modelbox}
 \begin{userbox}Count how many `r' letters are there in the following words:\\ ``red'': 1, \; ``roar'': 2, \; ``strawberry'':\end{userbox}
@@ -60,7 +60,7 @@
 \end{column}
 \end{columns}
 \vspace{6pt}
-\centering\small\gray{Why is this hard at all? The model sees \emph{tokens}, not letters (Part 2) --- the examples show it the pattern it needs.}
+\centering\small\gray{Why is this hard at all? The model sees \emph{tokens}, not letters. The examples do more than fix the output format: they steer the model toward the right computation, working letter by letter. A first step toward chain-of-thought (next slide).}
 \end{frame}
 
 \begin{frame}{Chain-of-thought prompting: ask for the steps}
