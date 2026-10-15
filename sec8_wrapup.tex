@@ -12,12 +12,12 @@
 \cellcolor{uvanavy}\textcolor{white}{\textbf{Loss}} &
 \cellcolor{uvanavy}\textcolor{white}{\textbf{Optimization}} &
 \cellcolor{uvanavy}\textcolor{white}{\textbf{What it learns}}\\
-\textbf{Pretraining} (Part 2) & \cellcolor{dataC}web text, $\sim 10^{13}$ tokens, no labels & \cellcolor{lossC}cross-entropy on every next token (= MLE) & \cellcolor{optC}Adam, one pass, months on thousands of GPUs & \cellcolor{learnC}language, knowledge, skills --- a ``text continuer''\\
-\textbf{Prompting / ICL} (Part 3) & \cellcolor{dataC}a few examples in the input & \cellcolor{lossC}none & \cellcolor{optC}none --- weights frozen & \cellcolor{learnC}task adaptation at inference time\\
-\textbf{SFT} (Part 4) & \cellcolor{dataC}$10^4$--$10^6$ (prompt, response) pairs & \cellcolor{lossC}cross-entropy on response tokens & \cellcolor{optC}Adam, 1--3 epochs, small LR & \cellcolor{learnC}assistant format and behavior\\
-\textbf{Reward model} (Part 6) & \cellcolor{dataC}preference pairs $(x,y_w,y_l)$ & \cellcolor{lossC}logistic loss on score differences (Bradley--Terry) & \cellcolor{optC}Adam (a classifier) & \cellcolor{learnC}a proxy for human preference\\
-\textbf{RLHF / DPO} (Parts 5--6) & \cellcolor{dataC}own samples (RLHF); preference pairs (DPO) & \cellcolor{lossC}$-\E[r_\phi] + \beta\,\mathrm{KL}$; DPO: logistic loss on implicit rewards & \cellcolor{optC}PPO: clip + KL; DPO: plain Adam & \cellcolor{learnC}helpfulness, tone, refusals\\
-\textbf{RLVR / GRPO} (Part 7) & \cellcolor{dataC}problems + checker; $G$ own samples per problem & \cellcolor{lossC}$-\E[\hat A_i \log \pi_\theta]$ + clip + KL, $r\in\{0,1\}$ & \cellcolor{optC}GRPO: group baseline, no critic & \cellcolor{learnC}long chains of thought that end in correct answers\\
+\textbf{Pretraining} & \cellcolor{dataC}web text, $\sim 10^{13}$ tokens, no labels & \cellcolor{lossC}cross-entropy on every next token (= MLE) & \cellcolor{optC}Adam, one pass, months on thousands of GPUs & \cellcolor{learnC}language, knowledge, skills: a ``text continuer''\\
+\textbf{Prompting / ICL} & \cellcolor{dataC}a few examples in the input & \cellcolor{lossC}none & \cellcolor{optC}none (weights frozen) & \cellcolor{learnC}task adaptation at inference time\\
+\textbf{SFT} & \cellcolor{dataC}$10^4$--$10^6$ (prompt, response) pairs & \cellcolor{lossC}cross-entropy on response tokens & \cellcolor{optC}Adam, 1--3 epochs, small LR & \cellcolor{learnC}assistant format and behavior\\
+\textbf{Reward model} & \cellcolor{dataC}preference pairs $(x,y_w,y_l)$ & \cellcolor{lossC}logistic loss on score differences (Bradley--Terry) & \cellcolor{optC}Adam (a classifier) & \cellcolor{learnC}a proxy for human preference\\
+\textbf{RLHF / DPO} & \cellcolor{dataC}own samples (RLHF); preference pairs (DPO) & \cellcolor{lossC}$-\E[r_\phi] + \beta\,\mathrm{KL}$; DPO: logistic loss on implicit rewards & \cellcolor{optC}PPO: clip + KL; DPO: plain Adam & \cellcolor{learnC}helpfulness, tone, refusals\\
+\textbf{RLVR / GRPO} & \cellcolor{dataC}problems + checker; $G$ own samples per problem & \cellcolor{lossC}$-\E[\hat A_i \log \pi_\theta]$ + clip + KL, $r\in\{0,1\}$ & \cellcolor{optC}GRPO: group baseline, no critic & \cellcolor{learnC}long chains of thought that end in correct answers\\
 \end{tabular}
 \end{frame}
 
@@ -43,30 +43,30 @@ DPO & a preference pair & $\pm\beta\,\sigma(\hat r_l - \hat r_w)$ & logistic reg
 \end{tabular}
 \vspace{8pt}
 
-\small Plus two guardrails whenever $y$ is self-generated: \textbf{clip} the per-token update, \textbf{KL-penalize} drift from the reference model.
+\small Plus two stability tricks whenever $y$ is self-generated: \textbf{clip} the per-token update, \textbf{KL-penalize} drift from the reference model.
 \end{frame}
 
 \begin{frame}{Where this goes next in CS 4774}
 \begin{itemize}\setlength{\itemsep}{7pt}
-  \item 10/20 --- Deep learning on text: bag-of-words to \textbf{attention}
-  \item 10/22 --- \textbf{Reinforcement learning} (value functions, Q-learning, Gym)
-  \item 10/27 --- \textbf{LLM architecture and training} (inside today's black box)
-  \item 10/29 --- Multimodal and vision-language models
-  \item 11/05 --- \textbf{Prompting, RAG, and fine-tuning} (incl.\ LoRA, more on DPO)
-  \item 11/10 --- Efficient LLMs and deployment
-  \item 11/12, 11/17 --- \textbf{Agents}, tool use, multi-agent systems, evaluation, safety
+  \item 10/20: Deep learning on text: bag-of-words to \textbf{attention}
+  \item 10/22: \textbf{Reinforcement learning} (value functions, Q-learning, Gym)
+  \item 10/27: \textbf{LLM architecture and training} (inside today's black box)
+  \item 10/29: Multimodal and vision-language models
+  \item 11/05: \textbf{Prompting, RAG, and fine-tuning} (incl.\ LoRA, more on DPO)
+  \item 11/10: Efficient LLMs and deployment
+  \item 11/12, 11/17: \textbf{Agents}, tool use, multi-agent systems, evaluation, safety
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Readings (all free online)}
 \begin{itemize}\setlength{\itemsep}{6pt}
-  \item Jurafsky \& Martin, \emph{Speech and Language Processing} (3rd ed.), Ch.\ 7--10 --- LMs, Transformers, fine-tuning, alignment.
-  \item Brown et al.\ (2020), \emph{Language Models are Few-Shot Learners} --- GPT-3 and in-context learning.
+  \item Jurafsky \& Martin, \emph{Speech and Language Processing} (3rd ed.), Ch.\ 7--10: LMs, Transformers, fine-tuning, alignment.
+  \item Brown et al.\ (2020), \emph{Language Models are Few-Shot Learners}: GPT-3 and in-context learning.
   \item Wei et al.\ (2022), \emph{Chain-of-Thought Prompting Elicits Reasoning in LLMs}.
-  \item Ouyang et al.\ (2022), \emph{Training language models to follow instructions with human feedback} --- InstructGPT / RLHF.
+  \item Ouyang et al.\ (2022), \emph{Training language models to follow instructions with human feedback}: InstructGPT / RLHF.
   \item Rafailov et al.\ (2023), \emph{Direct Preference Optimization}.
-  \item Shao et al.\ (2024), \emph{DeepSeekMath} --- GRPO; DeepSeek-AI (2025), \emph{DeepSeek-R1}.
-  \item Lambert et al.\ (2024), \emph{T\"ulu 3} --- RL with verifiable rewards.
+  \item Shao et al.\ (2024), \emph{DeepSeekMath}: GRPO; DeepSeek-AI (2025), \emph{DeepSeek-R1}.
+  \item Lambert et al.\ (2024), \emph{T\"ulu 3}: RL with verifiable rewards.
   \item Yue et al.\ (2025), \emph{Does RL really incentivize reasoning capacity in LLMs beyond the base model?}
 \end{itemize}
 \end{frame}
@@ -88,14 +88,14 @@ DPO & a preference pair & $\pm\beta\,\sigma(\hat r_l - \hat r_w)$ & logistic reg
 \begin{column}{0.55\textwidth}
 \textbf{Three things to remember}
 \begin{enumerate}\setlength{\itemsep}{6pt}
-  \item An LLM is a next-token classifier --- softmax, cross-entropy, SGD --- trained on the whole web. Generation is that classifier in a loop.
+  \item An LLM is a next-token classifier (softmax, cross-entropy, SGD) trained on the whole web. Generation is that classifier in a loop.
   \item Post-training reuses the \emph{same} network and the \emph{same} gradient: SFT changes the data; RL changes the \emph{weights} on self-generated data.
   \item Reasoning emerges when the reward is \emph{correctness} and the model is free to search: sample a group, score, reinforce the winners (GRPO).
 \end{enumerate}
 \end{column}
 \begin{column}{0.43\textwidth}
 \textbf{Questions?}\\[10pt]
-Peng Wang \\ Ph.D.\ student, University of Virginia\\[10pt]
+Peng Wang \\ University of Virginia\\[10pt]
 Colab notebooks (DPO, GRPO): links on the ``Hands-on'' slide.
 \end{column}
 \end{columns}

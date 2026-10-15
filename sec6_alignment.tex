@@ -2,21 +2,21 @@
 \section{Part 6 $\cdot$ Alignment}
 \partslide{6}{Alignment}{learning from human preferences}
 
-\begin{frame}{Why alignment? Predicting text is not the same as being helpful}
+\begin{frame}{Why alignment? Predicting text is not the same as helping}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item \textbf{Objective mismatch:} ``predict the next word'' says nothing about being helpful, truthful, or safe.
   \item \textbf{Data bias:} web text contains toxic and misleading content; the LM does not distinguish good from bad behavior.
   \item GPT-3 (2020) was impressive but awkward to use; ChatGPT (2022) = the same kind of model + \textbf{alignment}.
-  \item Target --- ``HHH'': \textbf{helpful}, \textbf{honest}, \textbf{harmless}.
+  \item The target, ``HHH'': \textbf{helpful}, \textbf{honest}, \textbf{harmless}.
 \end{itemize}
 \end{column}
 \begin{column}{0.46\textwidth}
 \keybox{\textbf{How do you write a loss function for \dots}\\[4pt]
 \quad what is helpful? \quad what is funny?\\
 \quad what is ethical? \quad what is safe?\\[6pt]
-You don't. You \textbf{learn} it from human judgments --- then optimize it with RL (Part 5).}
+You don't. You \textbf{learn} it from human judgments, then optimize it with RL.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -60,12 +60,12 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
 \]
 \begin{itemize}\setlength{\itemsep}{4pt}
   \item \textbf{Architecture:} the LLM backbone with the softmax head replaced by a linear layer that outputs \emph{one number} (read at the last token).
-  \item After training, $r_\phi$ is an \textbf{automatic judge} of any response --- a cheap, differentiable proxy for human preference. Only a proxy: it can be fooled.
+  \item After training, $r_\phi$ is an \textbf{automatic judge} of any response: a cheap, differentiable proxy for human preference. Only a proxy, though: it can be fooled.
 \end{itemize}
-\callback{09/29 logistic regression}{$P(\text{label}=1)=\sigma(\text{score})$, trained by minimizing the log loss. Here the score is a \emph{difference of two learned scores} and the label is ``$w$ beats $l$''.}
+\callback{logistic regression}{$P(\text{label}=1)=\sigma(\text{score})$, trained by minimizing the log loss. Here the score is a \emph{difference of two learned scores} and the label is ``$w$ beats $l$''.}
 \end{frame}
 
-\begin{frame}{Step 3: RLHF --- maximize the learned reward, on a KL leash}
+\begin{frame}{Step 3: RLHF, maximize the learned reward on a KL leash}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
 \centering
@@ -73,13 +73,13 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
 \scriptsize Collect comparisons $\to$ train the reward model $\to$ train the policy with PPO (Stiennon et al., 2020; InstructGPT, 2022).
 \end{column}
 \begin{column}{0.46\textwidth}
-\textbf{Objective} --- the Part 5 recipe with $R = r_\phi$:
+\textbf{Objective:} the policy-gradient recipe with $R = r_\phi$:
 \[
   \max_\theta\; \E_{y\sim\pi_\theta}\big[r_\phi(x,y)\big] - \beta\,\mathrm{KL}\big(\pi_\theta\,\|\,\pi_{\text{SFT}}\big)
 \]
 \begin{itemize}\setlength{\itemsep}{5pt}
   \item Optimized with policy gradient (PPO): sample, score with $r_\phi$, weighted update on the sample, clip, repeat.
-  \item \textbf{Reward hacking:} the policy finds outputs $r_\phi$ over-rates (long, confident, flattering) --- hence the KL leash.
+  \item \textbf{Reward hacking:} the policy finds outputs $r_\phi$ over-rates (long, confident, flattering); hence the KL leash.
 \end{itemize}
 \end{column}
 \end{columns}
@@ -94,7 +94,7 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
 \end{column}
 \begin{column}{0.42\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
-  \item Humans preferred the \textbf{1.3B} RLHF model (PPO) over the \textbf{175B} GPT-3 --- 100$\times$ larger.
+  \item Humans preferred the \textbf{1.3B} RLHF model (PPO) over the \textbf{175B} GPT-3, a model 100$\times$ larger.
   \item Alignment is cheap compared with pretraining: tens of thousands of comparisons, not trillions of tokens.
   \item Every chat assistant since (ChatGPT, Claude, Llama-chat, \dots) uses some version of this recipe.
 \end{itemize}
@@ -109,7 +109,7 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
 \vspace{-2pt}
 \begin{itemize}\setlength{\itemsep}{3pt}
   \item RLHF is heavy: a reward model, online sampling, PPO hyperparameters.
-  \item \textbf{Direct Preference Optimization} (2023): train the policy \emph{directly} on the preference pairs --- no reward model, no sampling.
+  \item \textbf{Direct Preference Optimization} (2023): train the policy \emc{directly} on the preference pairs. No reward model, no sampling.
 \end{itemize}
 \end{frame}
 
@@ -117,14 +117,14 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
 \newcommand{\yw}{\textcolor{okgreen!70!black}{y_w}}\newcommand{\yl}{\textcolor{badred}{y_l}}
 \begin{enumerate}\setlength{\itemsep}{5pt}
   \item The KL-regularized objective has a \textbf{closed-form optimum}: $\pi^\star(y\mid x)\propto \pi_{\text{ref}}(y\mid x)\,e^{\,r(x,y)/\beta}$.
-  \item Invert it: $r(x,y)=\beta\log\dfrac{\pi^\star(y\mid x)}{\pi_{\text{ref}}(y\mid x)}+\text{const}$ --- a policy's \textbf{implicit reward}.
+  \item Invert it: $r(x,y)=\beta\log\dfrac{\pi^\star(y\mid x)}{\pi_{\text{ref}}(y\mid x)}+\text{const}$, a policy's \textbf{implicit reward}.
   \item Plug it into the Bradley--Terry loss (Step 2); the constant cancels:
 \end{enumerate}
 \keybox{\centering$\displaystyle \mathcal{L}_{\text{DPO}}(\theta) = -\,\E_{(x,\yw,\yl)\sim\mathcal{D}}\Big[\log\sigma\Big(\beta\log\frac{\pi_\theta(\yw\mid x)}{\pi_{\text{ref}}(\yw\mid x)} - \beta\log\frac{\pi_\theta(\yl\mid x)}{\pi_{\text{ref}}(\yl\mid x)}\Big)\Big]$}
 \begin{itemize}\setlength{\itemsep}{4pt}
-  \item \textbf{Gradient:} raise $\log\pi_\theta(\yw\mid x)$, lower $\log\pi_\theta(\yl\mid x)$, weighted by $\sigma(\hat r_\theta(\yl)-\hat r_\theta(\yw))$ --- pairs the implicit reward gets \emph{wrong} count most.
+  \item \textbf{Gradient:} raise $\log\pi_\theta(\yw\mid x)$, lower $\log\pi_\theta(\yl\mid x)$, weighted by $\sigma(\hat r_\theta(\yl)-\hat r_\theta(\yw))$, so pairs the implicit reward gets \emc{wrong} count most.
 \end{itemize}
-\callback{09/29 logistic regression}{Still logistic regression on pairs, but a response's ``score'' is now how much more likely the policy makes it than the reference did. \emph{The policy is the reward model.}}
+\callback{logistic regression}{Still logistic regression on pairs, but a response's ``score'' is now how much more likely the policy makes it than the reference did. \emph{The policy is the reward model.}}
 \end{frame}
 
 \begin{frame}{DPO in practice (Colab notebook 1)}
@@ -134,7 +134,7 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
 \end{center}
 \vspace{-2pt}
 \begin{itemize}\setlength{\itemsep}{3pt}
-  \item \textbf{Accuracy} ($\hat r_w > \hat r_l$) and the \textbf{margin} rise, then plateau --- the policy learns the ranking.
+  \item \textbf{Accuracy} ($\hat r_w > \hat r_l$) and the \textbf{margin} rise, then plateau: the policy learns the ranking.
   \item \textbf{Both} implicit rewards drift \emph{down}: the loss only cares about the margin, and lowering $\pi_\theta(y_l)$ is the easiest way to widen it. One fix: add an SFT term on $y_w$.
 \end{itemize}
 \end{frame}
@@ -147,7 +147,7 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
  & \textbf{RLHF (PPO)} & \textbf{DPO}\\
 \midrule
 reward model & trained separately & implicit in the policy\\
-sampling during training & online (model's own outputs) & none --- fixed pairs (offline)\\
+sampling during training & online (model's own outputs) & none, fixed pairs (offline)\\
 models in memory & 4 (policy, reference, reward, value) & 2 (policy, reference)\\
 tuning & PPO hyperparameters & one knob: $\beta$\\
 weakness & reward hacking & limited to the given pairs\\

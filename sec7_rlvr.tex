@@ -11,9 +11,9 @@
 \end{column}
 \begin{column}{0.46\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
-  \item A \textbf{reasoning model} writes a long chain of thought \emph{before} its final answer --- CoT (Part 3) as a learned default.
-  \item \textbf{o1} (Sept.\ 2024): closed recipe, clear message --- RL training + ``thinking time''.
-  \item \textbf{DeepSeek-R1} (Jan.\ 2025): open weights, open recipe --- the algorithm is \textbf{GRPO}.
+  \item A \textbf{reasoning model} writes a long chain of thought \emc{before} its final answer: chain-of-thought as a learned default.
+  \item \textbf{o1} (Sept.\ 2024): closed recipe, clear message: RL training + ``thinking time''.
+  \item \textbf{DeepSeek-R1} (Jan.\ 2025): open weights, open recipe: the algorithm is \textbf{GRPO}.
 \end{itemize}
 \end{column}
 \end{columns}
@@ -54,24 +54,24 @@
 \midrule
 data & a person must write every full solution & only the \emph{answer key} is needed\\
 what is optimized & imitate the human's steps (maybe clumsy) & the \emph{outcome}; the model finds its own path\\
-distribution & learns from human-written text & learns from \emph{its own} samples --- what it faces at inference\\
+distribution & learns from human-written text & learns from \emph{its own} samples, which is what it faces at inference\\
 behaviors & only what was demonstrated & can \emph{discover} re-checking, backtracking, trying another approach\\
 \bottomrule
 \end{tabular}
 \vspace{10pt}
 
-\keybox{RLHF (Part 6) makes models \emph{sound} aligned --- polite, helpful, safe --- but does not make them reason better. For reasoning the reward must be about \emph{correctness}.}
+\keybox{RLHF makes models \emc{sound} aligned (polite, helpful, safe) but does not make them reason better. For reasoning, the reward must be about \emc{correctness}.}
 \end{frame}
 
 \begin{frame}{From PPO to GRPO: drop the critic, use the group}
 \begin{columns}[T]
 \begin{column}{0.44\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
-  \item PPO's baseline $b(x)$ comes from a learned \textbf{value network} --- a second LLM-sized model trained alongside the policy.
+  \item PPO's baseline $b(x)$ comes from a learned \textbf{value network}, a second LLM-sized model trained alongside the policy.
   \item Expensive: doubles memory and compute.
   \item Fragile: with one reward at the \emph{end} of a long chain, token-level value estimates are noisy.
 \end{itemize}
-\keybox{\textbf{GRPO} (DeepSeekMath, 2024): we already sample several responses per question --- let them be \emph{each other's baseline}. No critic.}
+\keybox{\textbf{GRPO} (DeepSeekMath, 2024): we already sample several responses per question, so let them be \emc{each other's baseline}. No critic.}
 \end{column}
 \begin{column}{0.54\textwidth}
 \centering
@@ -107,7 +107,7 @@ behaviors & only what was demonstrated & can \emph{discover} re-checking, backtr
 \end{tikzpicture}
 \end{center}
 \begin{itemize}\setlength{\itemsep}{4pt}
-  \item For each question $q$: sample $G$ responses from $\pi_{\text{old}}(\cdot\mid q)$ with temperature (Part 2); the verifier scores each, $r_i\in\{0,1\}$.
+  \item For each question $q$: sample $G$ responses from $\pi_{\text{old}}(\cdot\mid q)$ with temperature $\tau>0$; the verifier scores each, $r_i\in\{0,1\}$.
   \item Typical: $G = 8$--$64$ per question, hundreds of questions per batch. The model's \emph{own attempts} are the data.
 \end{itemize}
 \end{frame}
@@ -119,12 +119,12 @@ behaviors & only what was demonstrated & can \emph{discover} re-checking, backtr
 \]
 \vspace{4pt}
 \begin{itemize}\setlength{\itemsep}{8pt}
-  \item The \textbf{baseline is the group mean} --- ``how hard is this question for the current model'' --- obtained for free.
+  \item The \textbf{baseline is the group mean}, ``how hard is this question for the current model'', obtained for free.
   \item Dividing by the std puts easy and hard questions on one scale.
   \item All right or all wrong $\Rightarrow$ $\hat A_i = 0$: no gradient. Learning happens where the model \emph{sometimes} succeeds.
 \end{itemize}
 \vspace{6pt}
-\callback{Part 5}{advantage = reward $-$ baseline; the baseline now comes from samples instead of a critic.}
+\callback{baselines and the advantage}{advantage = reward $-$ baseline; the baseline now comes from samples instead of a critic.}
 \end{frame}
 
 \begin{frame}{GRPO step 2: a worked example}
@@ -138,15 +138,15 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \vspace{2pt}
 \begin{itemize}\setlength{\itemsep}{8pt}
   \item The 3 correct responses are pushed \emph{up} with weight $+1.29$; the 5 wrong ones pushed \emph{down} with $-0.77$.
-  \item Had 7 of 8 been correct: $+0.38$ for the correct ones and $-2.65$ for the lone mistake --- the rare failure is what gets corrected.
-  \item Had 0 of 8 been correct: all advantages $0$ --- this question teaches nothing \emph{yet}.
+  \item Had 7 of 8 been correct: $+0.38$ for the correct ones and $-2.65$ for the lone mistake: the rare failure is what gets corrected.
+  \item Had 0 of 8 been correct: all advantages $0$: this question teaches nothing \emph{yet}.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{GRPO step 3: the objective}
 \[
   J_{\text{GRPO}}(\theta) = \E_{q,\{o_i\}}\Bigg[\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}
-  \underbrace{\min\!\Big(\rho_{i,t}\,\textcolor{uvaorange!85!black}{\hat A_i},\;\operatorname{clip}(\rho_{i,t},1-\epsilon,1+\epsilon)\,\textcolor{uvaorange!85!black}{\hat A_i}\Big)}_{\textcolor{okgreen!70!black}{\text{PPO clipping (Part 5)}}}\Bigg]
+  \underbrace{\min\!\Big(\rho_{i,t}\,\textcolor{uvaorange!85!black}{\hat A_i},\;\operatorname{clip}(\rho_{i,t},1-\epsilon,1+\epsilon)\,\textcolor{uvaorange!85!black}{\hat A_i}\Big)}_{\textcolor{okgreen!70!black}{\text{PPO clipping}}}\Bigg]
   -\underbrace{\beta\,\mathrm{KL}(\pi_\theta\,\|\,\pi_{\text{ref}})}_{\textcolor{okgreen!70!black}{\text{KL leash}}}
 \]
 \centering\small $\rho_{i,t} = \pi_\theta(o_{i,t}\mid q, o_{i,<t}) \,/\, \pi_{\text{old}}(o_{i,t}\mid q, o_{i,<t})$ is the per-token probability ratio; $\hat A_i$ comes from step 2.
@@ -197,7 +197,7 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \end{columns}
 \vspace{6pt}
 \begin{itemize}\setlength{\itemsep}{4pt}
-  \item AIME pass@1: \textbf{15.6\% $\to$ 71.0\%} (86.7\% with majority vote over 64 samples) --- on par with o1.
+  \item AIME pass@1: \textbf{15.6\% $\to$ 71.0\%} (86.7\% with majority vote over 64 samples), on par with o1.
   \item The reward only says \emph{correct / incorrect}; longer thinking, re-checking, and backtracking \textbf{emerged} because they raise the chance of a correct answer.
 \end{itemize}
 \end{frame}
@@ -211,15 +211,15 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \end{column}
 \begin{column}{0.38\textwidth}
 \begin{itemize}\setlength{\itemsep}{7pt}
-  \item The model stops, flags a problem with its own approach, and \emph{re-evaluates} --- in a tone nobody put in the training data.
+  \item The model stops, flags a problem with its own approach, and \emc{re-evaluates}, in a tone nobody put in the training data.
   \item This is what ``learning from evaluation'' buys: behaviors that \emph{work} get reinforced, whether or not a human would have written them.
-  \item RL optimizes \emph{the reward} --- not readability or brevity; hence R1 adds SFT and RLHF stages after R1-Zero.
+  \item RL optimizes \emc{the reward}, not readability or brevity; hence R1 adds SFT and RLHF stages after R1-Zero.
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Open questions (active research --- including at UVA)}
+\begin{frame}{Open questions}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
 \centering
@@ -239,13 +239,13 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \begin{frame}{Hands-on: two Colab notebooks}
 \begin{columns}[T]
 \begin{column}{0.53\textwidth}
-\textbf{Notebook 1 --- preference fine-tuning (DPO)}
+\textbf{Notebook 1: preference fine-tuning (DPO)}
 \begin{itemize}\setlength{\itemsep}{2pt}
   \item SFT model (Zephyr-7B, QLoRA) + UltraFeedback preference pairs.
-  \item Watch accuracy, margin, and the implicit rewards (Part 6 curves).
+  \item Watch accuracy, margin, and the implicit rewards (the curves from the DPO slide).
 \end{itemize}
 \vspace{4pt}
-\textbf{Notebook 2 --- GRPO with a verifiable reward}
+\textbf{Notebook 2: GRPO with a verifiable reward}
 \begin{itemize}\setlength{\itemsep}{2pt}
   \item Math problems + answer keys; rule-based checker: $r\in\{0,1\}$ + format reward.
   \item TRL \texttt{GRPOTrainer}: sample $G$, score, group-normalize, clipped update + KL.
@@ -262,11 +262,11 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \scriptsize
 \textbf{DPO:}\; \href{https://colab.research.google.com/drive/1i7aDdW-RHNNPgCCHW9Ky858riqYbrN1R}{\texttt{https://colab.research.google.com/drive/1i7aDdW-RHNNPgCCHW9Ky858riqYbrN1R}}\\
 \textbf{GRPO:} \href{https://colab.research.google.com/drive/1hydSFeV8hpTleZTp5EwpoDCjrqRp8JQ7}{\texttt{https://colab.research.google.com/drive/1hydSFeV8hpTleZTp5EwpoDCjrqRp8JQ7}}\\
-\textbf{Tip:} Colab Pro is free for students --- \texttt{colab.research.google.com/signup} $\to$ ``No cost for students and educators''.
+\textbf{Tip:} Colab Pro is free for students: \texttt{colab.research.google.com/signup} $\to$ ``No cost for students and educators''.
 \end{tcolorbox}
 \end{frame}
 
-\begin{frame}[fragile]{The whole of Part 7 in fifteen lines of PyTorch}
+\begin{frame}[fragile]{GRPO in fifteen lines of PyTorch}
 \begin{lstlisting}[language=Python,basicstyle=\scriptsize\ttfamily]
 def grpo_loss(model, ref_model, batch, eps=0.2, beta=0.04):
     logits     = model(batch["input_ids"]).logits          # current policy
@@ -288,7 +288,7 @@ def grpo_loss(model, ref_model, batch, eps=0.2, beta=0.04):
 \vspace{-2pt}
 \footnotesize
 \begin{itemize}\setlength{\itemsep}{1pt}
-  \item \texttt{logprobs}: the same $\log p_\theta(y_t\mid x, y_{<t})$ as in the SFT loss (Part 4). \quad \texttt{advantages}: the worked example of step 2.
-  \item \texttt{surr1/surr2}: the PPO clip; \texttt{kl}: the leash (Part 5). Simplified from TRL's \texttt{GRPOTrainer} (which also masks padding, handles several update epochs).
+  \item \texttt{logprobs}: the same $\log p_\theta(y_t\mid x, y_{<t})$ as in the SFT loss. \quad \texttt{advantages}: the worked example of step 2.
+  \item \texttt{surr1/surr2}: the PPO clip; \texttt{kl}: the KL leash. Simplified from TRL's \texttt{GRPOTrainer} (which also masks padding, handles several update epochs).
 \end{itemize}
 \end{frame}

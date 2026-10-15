@@ -140,7 +140,7 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
 \end{columns}
 \end{frame}
 
-\begin{frame}{Guardrail 1: don't move too far in one step (PPO clipping)}
+\begin{frame}{Stability trick 1: don't move too far in one step (PPO clipping)}
 \begin{columns}[T]
 \begin{column}{0.55\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
@@ -166,7 +166,7 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
 \end{columns}
 \end{frame}
 
-\begin{frame}{Guardrail 2: stay close to where you started (KL penalty)}
+\begin{frame}{Stability trick 2: stay close to where you started (KL penalty)}
 \begin{itemize}\setlength{\itemsep}{8pt}
   \item Subtract a penalty for drifting away from a frozen \textbf{reference model} $\pi_{\text{ref}}$ (usually the SFT model):
   \[
@@ -176,5 +176,5 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
   \item $\beta$ trades off ``get more reward'' against ``stay a normal language model''.
 \end{itemize}
 \vspace{10pt}
-\callback{09/15 regularization}{$L_2$ keeps the weights $w$ near $0$; the KL term keeps the \emph{policy} $\pi_\theta$ near $\pi_{\text{ref}}$. Same idea, different space.}
+\callback{regularization}{$L_2$ keeps the weights $w$ near $0$; the KL term keeps the \emph{policy} $\pi_\theta$ near $\pi_{\text{ref}}$. Same idea, different space.}
 \end{frame}
