@@ -246,17 +246,17 @@ arithmetic & $3 + 8 + 4 = $ \{\green{15}, \red{11}\}\\
   \item \textbf{Data:} Llama-3 saw $\sim$15 trillion tokens.
   \item \textbf{Parameters:} 0.1B (2018) $\to$ 175B (2020) $\to$ 405B (2024).
   \item \textbf{Compute:} thousands of GPUs for months.
-  \item \textbf{Scaling laws} (Kaplan et al., 2020): test loss falls as a \textbf{power law} in each factor --- straight lines on log-log axes.
+  \item \textbf{Scaling laws} (\href{https://arxiv.org/abs/2001.08361}{Kaplan et al., 2020}): test loss falls as a \textbf{power law} in each factor: straight lines on log-log axes.
 \end{itemize}
 \end{column}
 \begin{column}{0.56\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/scaling_laws.png}\\[2pt]
-\scriptsize Test loss vs.\ compute, dataset size, and parameters.
+\scriptsize Test loss vs.\ training compute (in PF-days: $10^{15}$ floating-point ops per second, sustained for a day), dataset size (tokens), and parameters.
 \end{column}
 \end{columns}
 \vspace{6pt}
-\callback{09/22 bias--variance}{Test loss keeps improving with more data \emph{and} more parameters --- nowhere near the regime where capacity hurts.}
+\callback{bias--variance}{Test loss keeps improving with more data \emph{and} more parameters; these models are nowhere near the regime where extra capacity hurts.}
 \end{frame}
 
 \begin{frame}{Emergent abilities: some skills appear only at scale}
