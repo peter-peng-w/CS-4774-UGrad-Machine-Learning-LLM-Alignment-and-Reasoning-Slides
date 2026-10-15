@@ -157,7 +157,7 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \[
   \frac{1}{G}\sum_i \hat A_i \cdot \nabla_\theta \log\pi_\theta(o_i\mid q)\quad\text{(per token)}
 \]
-\keybox{= the \textbf{SFT gradient on the model's own responses, weighted by advantage}: correct chains reinforced, wrong ones suppressed; clip and KL keep each step small.}
+\keybox{= an \textbf{SFT-shaped update on the model's own responses, weighted by advantage}: correct chains reinforced, wrong ones suppressed; clip and KL keep each step small.}
 \end{frame}
 
 \begin{frame}{GRPO step 3: the algorithm}

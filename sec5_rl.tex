@@ -85,29 +85,29 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
 \keybox{\textbf{Why the log?} The sum runs over all $|V|^T$ possible responses. The identity $\nabla\pi=\pi\,\nabla\log\pi$ turns it into an \emc{average over samples} from the current policy.}
 \end{column}
 \begin{column}{0.48\textwidth}
-\keybox{\textbf{And it splits per token:} $\log\pi_\theta(y\mid x)=\sum_t \log p_\theta(y_t\mid x,y_{<t})$, so the update is the \emc{SFT gradient} on $y$, weighted by $R$.}
+\keybox{\textbf{And it splits per token:} $\log\pi_\theta(y\mid x)=\sum_t \log p_\theta(y_t\mid x,y_{<t})$. Same form as an SFT step, but on the model's \emc{own sample} $y$, not a label, and weighted by $R$.}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Read it as: sample $\to$ score $\to$ weighted SFT step}
+\begin{frame}{Read it as: sample $\to$ score $\to$ SFT-shaped step on the sample}
 \begin{center}
 \renewcommand{\arraystretch}{1.6}
 \begin{tabular}{@{}lll@{}}
 \toprule
  & \textbf{gradient} & \textbf{where $y$ comes from}\\
 \midrule
-\textbf{SFT} (Part 4) & $1 \cdot \nabla_\theta \log p_\theta(y^\star\mid x)$ & a \emph{human} wrote $y^\star$\\
-\textbf{RL} & $\textcolor{uvaorange!85!black}{R(x,y)} \cdot \nabla_\theta \log \pi_\theta(y\mid x)$ & the \emph{model} sampled $y$\\
+\textbf{SFT} & $1 \cdot \nabla_\theta \log p_\theta(y^\star\mid x)$ & a \emph{human} wrote $y^\star$ (a label)\\
+\textbf{RL} & $\textcolor{uvaorange!85!black}{R(x,y)} \cdot \nabla_\theta \log \pi_\theta(y\mid x)$ & the \emph{model} sampled $y$ (not a label)\\
 \bottomrule
 \end{tabular}
 \end{center}
 \vspace{6pt}
-\keybox{\textbf{Policy gradient = the SFT gradient on self-generated data, weighted by how good it was.}}
+\keybox{\textbf{Policy gradient has the same form as an SFT step, but the sequence is the model's own sample and it is weighted by how good that sample was.}}
 \vspace{6pt}
 \begin{itemize}\setlength{\itemsep}{4pt}
   \item Nothing changes in the network, the softmax head, or the optimizer.
-  \item What changes: the data is the model's own output, and each sequence carries a \emph{weight}.
+  \item What changes: the data is the model's own output, and each sequence carries a \emc{weight}.
 \end{itemize}
 \end{frame}
 

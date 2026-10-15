@@ -78,7 +78,7 @@ You don't. You \textbf{learn} it from human judgments --- then optimize it with 
   \max_\theta\; \E_{y\sim\pi_\theta}\big[r_\phi(x,y)\big] - \beta\,\mathrm{KL}\big(\pi_\theta\,\|\,\pi_{\text{SFT}}\big)
 \]
 \begin{itemize}\setlength{\itemsep}{5pt}
-  \item Optimized with policy gradient (PPO): sample, score with $r_\phi$, weighted-SFT step, clip, repeat.
+  \item Optimized with policy gradient (PPO): sample, score with $r_\phi$, weighted update on the sample, clip, repeat.
   \item \textbf{Reward hacking:} the policy finds outputs $r_\phi$ over-rates (long, confident, flattering) --- hence the KL leash.
 \end{itemize}
 \end{column}

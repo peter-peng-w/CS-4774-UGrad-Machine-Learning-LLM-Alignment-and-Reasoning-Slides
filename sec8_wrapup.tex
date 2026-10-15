@@ -36,8 +36,8 @@ What changes is \textbf{where $y$ comes from} and \textbf{what the weight $w$ is
 \midrule
 pretraining & the web ($x$ = preceding text) & $1$ & MLE / cross-entropy\\
 SFT & a human demonstration & $1$ & MLE on response tokens\\
-RLHF (policy gradient) & the model's own sample & $\hat A = r_\phi(x,y) - b(x)$ & weighted SFT\\
-GRPO / RLVR & $G$ samples per problem & $\hat A_i = (r_i - \text{mean})/\text{std}$ & weighted SFT, group baseline\\
+RLHF (policy gradient) & the model's own sample & $\hat A = r_\phi(x,y) - b(x)$ & SFT-shaped, weighted\\
+GRPO / RLVR & $G$ samples per problem & $\hat A_i = (r_i - \text{mean})/\text{std}$ & SFT-shaped, group baseline\\
 DPO & a preference pair & $\pm\beta\,\sigma(\hat r_l - \hat r_w)$ & logistic regression\\
 \bottomrule
 \end{tabular}
