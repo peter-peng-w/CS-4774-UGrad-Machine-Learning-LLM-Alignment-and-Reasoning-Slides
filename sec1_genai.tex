@@ -191,13 +191,13 @@ People went to the moon, and they took pictures of what they saw, and sent them 
 \end{modelbox}
 \end{column}
 \end{columns}
-\vspace{8pt}
-\keybox{The base model is not being difficult. It is doing exactly what it was trained for: predicting what text usually follows such a line on the web. Turning that into an assistant is \textbf{post-training} (Parts 4--7).}
+\vspace{4pt}
+\keybox{\textbf{Same network, two training recipes.} The base model continues the prompt the way web text would. The chat model is the \emc{same network} after more training on examples of helpful answers. That second stage is called \textbf{post-training}; the next slide maps it out.}
 \vspace{2pt}
 {\scriptsize\color{midgray} Example from OpenAI's InstructGPT announcement (2022).}
 \end{frame}
 
-\begin{frame}{The training pipeline --- our map for the rest of the lecture}
+\begin{frame}{How a base model becomes a chat model: the training pipeline}
 \begin{center}
 \begin{tikzpicture}[font=\footnotesize,>=Latex,
   stage/.style={draw,rounded corners,minimum width=2.75cm,minimum height=0.95cm,align=center,thick},
@@ -222,7 +222,7 @@ People went to the moon, and they took pictures of what they saw, and sent them 
 \end{center}
 \vspace{4pt}
 \begin{itemize}\setlength{\itemsep}{3pt}
-  \item Not in the chain: \textbf{prompting / in-context learning} (Part 3) --- no training; change the \emph{input}, not the weights.
+  \item Not in the chain: \textbf{prompting / in-context learning} (Part 3), which changes the \emc{input}, not the weights.
   \item For each stage we ask the course's four questions: \hl{Data?} \hl{Loss?} \hl{Optimization?} \hl{What is learned?}
 \end{itemize}
 \end{frame}
