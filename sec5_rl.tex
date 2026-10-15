@@ -116,26 +116,26 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
 \begin{column}{0.54\textwidth}
 \begin{itemize}\setlength{\itemsep}{5pt}
   \item If every response scores $0.6$--$0.9$, \emph{all} get pushed up; only differences carry information, and one sample is very noisy.
-  \item Fix: subtract a \textbf{baseline} $b(x)$ --- unchanged expected gradient, much lower variance:
+  \item Fix: subtract a \textbf{baseline} $b(x)$. The expected gradient is unchanged, the variance is much lower:
   \[ \nabla_\theta J = \E\big[(R(x,y) - b(x))\,\nabla_\theta\log\pi_\theta(y\mid x)\big] \]
   \item \textbf{Advantage} $A = R - b$: ``how much better than expected''.
-  \item $b$ from a learned value function (``critic'') in classic RL; from a \emph{group of samples} in GRPO (Part 7).
+  \item $b$ comes from a learned value function (``critic'') in classic RL, and from a \emc{group of samples} in GRPO (later today).
 \end{itemize}
 \end{column}
 \begin{column}{0.44\textwidth}
 \centering
 \begin{tikzpicture}
-\begin{axis}[width=0.82\textwidth,height=4.4cm,ybar,/pgf/bar width=10pt,ymin=0,ymax=0.5,
+\begin{axis}[width=\textwidth,height=4.6cm,ybar,/pgf/bar width=11pt,ymin=0,ymax=0.5,
   symbolic x coords={$y_1$,$y_2$,$y_3$,$y_4$},xtick=data,ylabel={$\pi_\theta(y\mid x)$},ylabel style={font=\scriptsize},
-  yticklabel style={font=\tiny},xticklabel style={font=\scriptsize},enlarge x limits=0.2,title={push mass toward $A>0$},title style={font=\scriptsize}]
+  yticklabel style={font=\tiny},xticklabel style={font=\scriptsize},enlarge x limits=0.18,title={advantage $A=R-b$: push mass toward $A>0$},title style={font=\scriptsize}]
 \addplot[fill=uvanavy!40,draw=uvanavy] coordinates {($y_1$,0.30) ($y_2$,0.25) ($y_3$,0.25) ($y_4$,0.20)};
-\node[above,font=\scriptsize,text=okgreen!70!black] at (axis cs:$y_1$,0.30) {$A{=}{+}0.5\ \uparrow$};
-\node[above,font=\scriptsize,text=badred] at (axis cs:$y_2$,0.25) {$A{=}{-}0.3\ \downarrow$};
-\node[above,font=\scriptsize,text=okgreen!70!black] at (axis cs:$y_3$,0.25) {$A{=}{+}0.2\ \uparrow$};
-\node[above,font=\scriptsize,text=badred] at (axis cs:$y_4$,0.20) {$A{=}{-}0.4\ \downarrow$};
+\node[above,font=\scriptsize,text=okgreen!70!black] at (axis cs:$y_1$,0.30) {${+}0.5\ \uparrow$};
+\node[above,font=\scriptsize,text=badred] at (axis cs:$y_2$,0.25) {${-}0.3\ \downarrow$};
+\node[above,font=\scriptsize,text=okgreen!70!black] at (axis cs:$y_3$,0.25) {${+}0.2\ \uparrow$};
+\node[above,font=\scriptsize,text=badred] at (axis cs:$y_4$,0.20) {${-}0.4\ \downarrow$};
 \end{axis}
 \end{tikzpicture}\\
-\scriptsize Four sampled responses to one prompt. Rewards $0.9, 0.1, 0.6, 0.0$; baseline $b = 0.4$.
+\scriptsize Four sampled responses to one prompt, rewards $0.9, 0.1, 0.6, 0.0$, baseline $b = 0.4$.
 \end{column}
 \end{columns}
 \end{frame}
