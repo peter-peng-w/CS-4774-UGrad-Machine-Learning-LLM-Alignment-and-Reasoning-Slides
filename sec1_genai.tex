@@ -1,24 +1,46 @@
 % ============================ Part 1: GenAI & LLMs ============================
 \section{Part 1 $\cdot$ Generative AI \& LLMs}
 
-\begin{frame}{Generative AI is everywhere (2026)}
-\begin{columns}[T]
-\begin{column}{0.55\textwidth}
-\begin{itemize}\setlength{\itemsep}{6pt}
+\newcommand{\genaiList}[1]{%
+\begin{itemize}\setlength{\itemsep}{6pt}\color{#1}
   \item \textbf{Text \& chat:} ChatGPT, Claude, Gemini, Llama, Qwen, DeepSeek
   \item \textbf{Code:} GitHub Copilot, Cursor, Claude Code
   \item \textbf{Images / video:} Stable Diffusion, Midjourney, Sora, Veo
   \item \textbf{Multimodal:} one model reads images, audio, and text
   \item \textbf{Agents:} LLMs that browse, call tools, write and run code
-\end{itemize}
+\end{itemize}}
+
+\begin{frame}{Generative AI is everywhere (2026)}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\vspace{6pt}
+\genaiList{black}
 \end{column}
 \begin{column}{0.43\textwidth}
-\keybox{Behind all of it:\\[3pt]
-the \textbf{Transformer} (2017)\\
-$+$ \textbf{self-supervised pretraining} on web text\\
-$+$ \textbf{scale}\\
-$+$ \textbf{post-training} (fine-tuning, alignment, RL)\\[3pt]
-The last one is today's story.}
+\centering
+\includegraphics[height=0.72\textheight]{figs/ai_agent_trends_2025.png}\\[2pt]
+{\scriptsize\color{midgray} AI agents in 2025 (infographic: Rakesh Gohel)}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Generative AI is everywhere (2026)}
+\begin{columns}[T]
+\begin{column}{0.46\textwidth}
+\vspace{6pt}
+\genaiList{midgray}
+\end{column}
+\begin{column}{0.52\textwidth}
+\vspace{10pt}
+\begin{tcolorbox}[enhanced,colback=uvanavy!6,colframe=uvanavy,boxrule=1pt,arc=3pt,left=8pt,right=8pt,top=8pt,bottom=8pt,fontupper=\large]
+\raggedright
+\textbf{Behind all of it:}\\[6pt]
+the \textbf{Transformer} (2017)\\[2pt]
+$+$ \textbf{self-supervised pretraining}\\ \hspace*{1.2em}{\normalsize(on trillions of words of web text)}\\[2pt]
+$+$ \textbf{scale}\\[2pt]
+$+$ \textbf{post-training}\\ \hspace*{1.2em}{\normalsize(fine-tuning, alignment, RL)}\\[8pt]
+\textcolor{uvaorange!85!black}{\textbf{The last one is today's story.}}
+\end{tcolorbox}
 \end{column}
 \end{columns}
 \end{frame}
