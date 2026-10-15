@@ -200,20 +200,21 @@ At position $t$ the network gives $h_t\in\mathbb{R}^d$. Then
 \begin{center}
 \begin{tikzpicture}[font=\small,>=Latex]
   \foreach \i/\w in {1/The,2/hippo,3/ate,4/my,5/homework}{
-    \node[draw,fill=softgray,rounded corners,minimum width=1.3cm,minimum height=0.55cm] (w\i) at (1.9*\i,0) {\w};
+    \node[draw,fill=softgray,rounded corners,minimum width=1.3cm,minimum height=0.55cm] (w\i) at (2.5*\i,0) {\w};
   }
-  \foreach \i/\p/\l in {1/0.001/6.9,2/0.30/1.2,3/0.08/2.5,4/0.02/3.9}{
+  \foreach \i/\lab/\p/\l/\dy in {1/{p(\text{hippo}\mid\text{The})}/0.001/6.9/0,2/{p(\text{ate}\mid\text{The hippo})}/0.30/1.2/11,3/{p(\text{my}\mid\text{The hippo ate})}/0.08/2.5/0,4/{p(\text{homework}\mid\text{The hippo ate my})}/0.02/3.9/11}{
     \pgfmathtruncatemacro{\j}{\i+1}
-    \draw[->,uvanavy,thick] (w\i.north) to[bend left=40] node[above=-1pt,font=\scriptsize] {$p{=}\p$} (w\j.north);
+    \draw[->,uvanavy,thick] (w\i.north) to[bend left=35] node[above=\dy pt,font=\scriptsize,fill=white,inner sep=1pt] {$\lab{=}\p$} (w\j.north);
     \node[below=3pt of w\j,font=\scriptsize,text=badred] {$-\log p = \l$};
   }
 \end{tikzpicture}
 \end{center}
-\begin{itemize}\setlength{\itemsep}{4pt}
-  \item Target at each position = the \textbf{actual next token}; loss = $-\log$ of the probability the model gave it; average over positions.
-  \item \textbf{Self-supervised}: the labels are free --- the next word is already in the text. Minimized by \textbf{SGD (Adam)} + backprop.
+\vspace{-2pt}
+\begin{itemize}\setlength{\itemsep}{3pt}
+  \item Each probability is conditioned on the \emc{whole prefix} $x_{<t}$, not just the previous word. Target at each position = the \textbf{actual next token}; loss = its NLL; average over positions.
+  \item \textbf{Self-supervised}: the labels are free, the next word is already in the text. Minimized by \textbf{SGD (Adam)} + backprop.
 \end{itemize}
-\callback{09/24 MLE}{max $\prod_t p_\theta(x_t\mid x_{<t})$ $\Leftrightarrow$ min $-\sum_t\log p_\theta(x_t\mid x_{<t})$. Pretraining \emph{is} maximum likelihood.}
+\callback{MLE}{max $\prod_t p_\theta(x_t\mid x_{<t})$ $\Leftrightarrow$ min $-\sum_t\log p_\theta(x_t\mid x_{<t})$. Pretraining \emph{is} maximum likelihood.}
 \end{frame}
 
 \begin{frame}{Why does predicting the next word teach so much?}
