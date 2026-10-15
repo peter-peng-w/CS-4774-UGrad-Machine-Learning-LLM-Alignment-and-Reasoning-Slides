@@ -125,33 +125,50 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 
 \begin{frame}{What is a large language model?}
 \begin{columns}[T]
-\begin{column}{0.5\textwidth}
-\begin{itemize}\setlength{\itemsep}{5pt}
+\begin{column}{0.52\textwidth}
+\begin{itemize}\setlength{\itemsep}{2pt}
   \item a \textbf{Transformer decoder} that \textbf{generates text}
   \item \textbf{pretrained} on trillions of words from the web
-  \item \textbf{billions} of parameters
-  \item a \textbf{general-purpose} solver: translation, coding, Q\&A, math, \dots
+  \item \textbf{billions} of parameters {\small\color{midgray}(GPT-3: 175B, Llama-3: 405B)}
+  \item a \textbf{general-purpose} solver: translation, coding, Q\&A, math
 \end{itemize}
-\vspace{8pt}
-\centering
-\begin{tabular}{@{}lll@{}}
-\toprule
-model & year & parameters\\
-\midrule
-GPT-1 & 2018 & 0.1 B\\
-GPT-2 & 2019 & 1.5 B\\
-GPT-3 & 2020 & 175 B\\
-Llama-3 & 2024 & 8 B / 70 B / 405 B\\
-\bottomrule
-\end{tabular}
 \end{column}
-\begin{column}{0.48\textwidth}
-\keybox{\textbf{Under the hood, an LLM is a classifier.}\\[4pt]
-\textbf{Input:} the text so far.\\[2pt]
-\textbf{Output:} a probability distribution over the \emph{next} token --- one of $|V|\approx 100{,}000$ classes.\\[4pt]
-\textbf{Generation} = run the classifier, sample one token, append it, repeat.}
+\begin{column}{0.46\textwidth}
+\keybox{\textbf{At its core, an LLM is a classifier.}\\[2pt]
+\textbf{Input:} the text so far.\\[1pt]
+\textbf{Output:} a distribution over the \emc{next token}, one of $|V|\approx 100{,}000$ classes.}
 \end{column}
 \end{columns}
+\vspace{2pt}
+\begin{center}
+\begin{tikzpicture}[font=\scriptsize,>=Latex,
+  tok/.style={draw,fill=softgray,rounded corners=1pt,minimum height=0.5cm,minimum width=0.7cm,inner xsep=2pt},
+  bar/.style={fill=uvanavy!55}]
+  % context tokens
+  \foreach \i/\w in {0/The,1/cat,2/sat,3/on,4/the}{ \node[tok] (t\i) at (0.8*\i,0) {\w}; }
+  \node[tok,draw=uvaorange!85!black,dashed,fill=uvaorange!10,text=uvaorange!85!black] (tq) at (4.05,0) {\textbf{?}};
+  \node[above=1mm of t2,text=midgray] {context: the text so far};
+  % model
+  \node[draw,rounded corners,fill=uvanavy,text=white,minimum width=1.5cm,minimum height=0.6cm,font=\scriptsize\bfseries] (llm) at (6.0,0) {LLM};
+  \draw[->,thick] (tq.east) -- (llm.west);
+  % bars
+  \def\bx{7.3} \def\by{-0.55} \def\bw{0.45} \def\bs{0.72} \def\bh{2.6}
+  \foreach \i/\w/\pr in {0/mat/0.42,1/floor/0.21,2/sofa/0.12,3/roof/0.06}{
+    \pgfmathsetmacro{\h}{\bh*\pr}
+    \ifnum\i=0 \fill[uvaorange!85!black] ({\bx+\bs*\i},\by) rectangle ({\bx+\bs*\i+\bw},{\by+\h});
+    \else \fill[bar] ({\bx+\bs*\i},\by) rectangle ({\bx+\bs*\i+\bw},{\by+\h}); \fi
+    \node[anchor=north] at ({\bx+\bs*\i+\bw/2},{\by-0.03}) {\w};
+    \node[anchor=south,font=\tiny] at ({\bx+\bs*\i+\bw/2},{\by+\h}) {\pr};
+  }
+  \node[anchor=north,text=midgray] at ({\bx+\bs*4+\bw/2},{\by-0.03}) {$\cdots$};
+  \draw[gray!60] ({\bx-0.1},\by) -- ({\bx+\bs*4+0.55},\by);
+  \draw[->,thick] (llm.east) -- ({\bx-0.15},0);
+  \node[anchor=south,text=uvanavy,align=center] at ({\bx+\bs*2.2},{\by+\bh*0.42+0.3}) {softmax: $p(\text{next token}\mid\text{context})$\\one score per vocabulary token};
+  % loop: sampled token goes back into the context
+  \draw[->,thick,uvaorange!85!black] ({\bx+\bw/2},{\by-0.45}) -- ++(0,-0.55) -| (tq.south)
+     node[pos=0.25,below,align=center] {sample one token (``mat''), append it to the context, run the classifier again; stop at \texttt{<eos>}};
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
 \begin{frame}{Base model vs.\ chat model: same network, different training}
