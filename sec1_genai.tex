@@ -68,6 +68,32 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Zooming out: the machine learning timeline from Lecture 1}
+\begin{center}
+\begin{tikzpicture}[font=\footnotesize,>=Latex,
+  era/.style={signal,signal to=east,signal from=west,fill=uvaorange!80,text=white,font=\footnotesize\bfseries,
+              minimum height=1.05cm,text width=1.45cm,align=center,inner xsep=2pt},
+  lab/.style={text width=1.85cm,align=center,font=\scriptsize,anchor=north}]
+  \node[era,signal from=nowhere] (e1) at (0,0) {1950s--60s};
+  \node[era,right=1mm of e1] (e2) {70s--80s};
+  \node[era,right=1mm of e2] (e3) {90s};
+  \node[era,right=1mm of e3] (e4) {2000s};
+  \node[era,right=1mm of e4] (e5) {2010s};
+  \node[era,right=1mm of e5,fill=uvanavy] (e6) {2023--now};
+  \node[lab] at ([yshift=-3mm]e1.south) {the start; neural nets first become popular};
+  \node[lab] at ([yshift=-3mm]e2.south) {rule-based and knowledge-based systems};
+  \node[lab] at ([yshift=-3mm]e3.south) {CNNs and RNNs invented};
+  \node[lab] at ([yshift=-3mm]e4.south) {classic ML: SVMs, random forests, Bayesian nets};
+  \node[lab] at ([yshift=-3mm]e5.south) {ImageNet; deep learning breakthroughs};
+  \node[lab,text=uvanavy,font=\scriptsize\bfseries] at ([yshift=-3mm]e6.south) {ChatGPT, generative AI, agentic AI};
+  \node[above=4mm of e6,text=uvaorange!85!black,font=\small\bfseries,align=center] (today) {today};
+  \draw[->,very thick,uvaorange!85!black] (today.south) -- (e6.north);
+\end{tikzpicture}
+\end{center}
+\vspace{4pt}
+\keybox{Every wave kept the previous one's tools. Today's models are still \emc{neural networks trained by gradient descent on a loss}, exactly what you learned in the first half of this course. What changed is the data, the scale, and the training recipe.}
+\end{frame}
+
 \begin{frame}{A short history --- and a map of this lecture}
 \begin{center}
 \begin{tikzpicture}[font=\scriptsize,>=Latex]
