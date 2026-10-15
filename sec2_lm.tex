@@ -122,17 +122,18 @@
 
 \begin{frame}{Inside the network (just enough for today)}
 \begin{columns}[T]
-\begin{column}{0.5\textwidth}
-\begin{itemize}\setlength{\itemsep}{4pt}
+\begin{column}{0.56\textwidth}
+\begin{itemize}\setlength{\itemsep}{3pt}
   \item A deep stack of layers: $h^{(\ell)} = f^{(\ell)}_\theta\big(h^{(\ell-1)}\big)$, \; $L = 32$ for Llama-3-8B.
-  \item Each layer mixes information \emph{across positions} (attention) and transforms each position (feed-forward).
+  \item Each layer: attention (mix information \emph{across positions}) + feed-forward (transform each position).
   \item Position $t$ only sees positions $\le t$: no cheating when predicting $x_{t+1}$.
-  \item \textbf{In training}, all positions are processed in parallel in one forward pass, which makes training on trillions of tokens feasible. At generation time, tokens come out one at a time.
+  \item \textbf{Training:} all positions in parallel, in one forward pass; that is what makes trillions of tokens feasible.
+  \item \textbf{Generation:} one token at a time, each conditioned on the ones before. This is called \emc{autoregressive} generation.
 \end{itemize}
 \end{column}
-\begin{column}{0.48\textwidth}
+\begin{column}{0.42\textwidth}
 \centering
-\begin{tikzpicture}[font=\scriptsize,>=Latex]
+\begin{tikzpicture}[font=\scriptsize,>=Latex,scale=0.9,every node/.style={transform shape}]
   \foreach \i/\w in {1/The,2/hippo,3/ate,4/my,5/homework}{
     \node[draw,fill=softgray,rounded corners,minimum width=0.9cm,minimum height=0.45cm] (in\i) at (1.15*\i,0) {\w};
     \node[draw,fill=uvanavy!15,circle,inner sep=2pt] (h1\i) at (1.15*\i,1.15) {};
@@ -151,8 +152,8 @@
 \end{tikzpicture}
 \end{column}
 \end{columns}
-\vspace{2pt}
-\callback{neural networks \& deep learning}{A Transformer is ``just'' another architecture: layers, nonlinearities, residuals, a loss at the top, gradients flowing down. Attention and the full Transformer come later in this course.}
+\vspace{-2pt}
+\callback{neural networks \& deep learning}{A Transformer is ``just'' another architecture: layers, nonlinearities, residuals, a loss at the top, gradients flowing down. Details later in this course.}
 \end{frame}
 
 \begin{frame}{The output layer is multi-class logistic regression}
