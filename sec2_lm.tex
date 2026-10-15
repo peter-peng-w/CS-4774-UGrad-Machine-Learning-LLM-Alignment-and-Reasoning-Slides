@@ -83,7 +83,7 @@
   \node[tok] (t1) {I}; \node[tok,below=1mm of t1] (t2) {eat}; \node[tok,below=1mm of t2] (t3) {the};
   \node[box,fill=uvaorange!15,draw=uvaorange!80!black,right=5mm of t2] (tk) {Tokenization\\\tiny text $\to$ IDs};
   \node[box,fill=uvaorange!15,draw=uvaorange!80!black,right=of tk] (em) {Embedding\\\tiny ID $\to$ $e_t\in\mathbb{R}^d$};
-  \node[box,fill=uvanavy!12,draw=uvanavy,right=of em] (nn) {Neural\\network $f_\theta$\\\tiny today: black box};
+  \node[box,fill=uvanavy!12,draw=uvanavy,right=of em] (nn) {Neural\\network $f_\theta$\\\tiny a Transformer};
   \node[box,fill=okgreen!12,draw=okgreen!70!black,right=of nn] (lg) {Logits\\\tiny $z_t\in\mathbb{R}^{|V|}$};
   \node[box,fill=okgreen!12,draw=okgreen!70!black,right=of lg] (sm) {Softmax\\\tiny probabilities $p_t$};
   \node[box,fill=okgreen!12,draw=okgreen!70!black,right=of sm] (dc) {Decoding\\\tiny pick a token};
@@ -91,19 +91,18 @@
   \draw[->,thick] (t2) -- (tk); \draw[->,thick] (tk) -- (em); \draw[->,thick] (em) -- (nn);
   \draw[->,thick] (nn) -- (lg); \draw[->,thick] (lg) -- (sm); \draw[->,thick] (sm) -- (dc); \draw[->,thick] (dc) -- (out);
   \draw[->,thick,dashed,gray] (out.south) |- ++(0,-0.75) -| node[pos=0.25,below,font=\tiny]{append and repeat} (t3.south);
-  \node[below=0.9cm of nn,text=uvanavy,font=\scriptsize\itshape,align=center] {Prof.\ Qi opens this box\\on 10/20 and 10/27};
-  \node[below=0.9cm of sm,text=okgreen!70!black,font=\scriptsize\itshape,xshift=0.6cm,align=center] {you already know\\this part (09/29)};
+  \node[below=0.9cm of sm,text=okgreen!70!black,font=\scriptsize\itshape,xshift=0.6cm,align=center] {you already know\\this part};
 \end{tikzpicture}
 \end{center}
 \vspace{4pt}
 \begin{itemize}\setlength{\itemsep}{4pt}
   \item \textbf{Embedding:} a learned lookup table $E\in\mathbb{R}^{|V|\times d}$; token ID $i_t$ becomes the vector $e_t = E_{i_t}$.
-  \item \textbf{Network:} turns $e_1,\dots,e_t$ into one vector $h_t\in\mathbb{R}^d$ that summarizes ``the text so far''.
+  \item \textbf{Network:} a deep neural network (a Transformer) turns $e_1,\dots,e_t$ into one vector $h_t\in\mathbb{R}^d$ that summarizes ``the text so far''.
   \item \textbf{Head:} a linear layer + softmax turns $h_t$ into a distribution over the next token.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Inside the black box (just enough for today)}
+\begin{frame}{Inside the network: a Transformer (just enough for today)}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
