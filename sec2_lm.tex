@@ -5,7 +5,7 @@
 \begin{frame}{A language model assigns probabilities to text}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item A \textbf{language model (LM)} assigns a probability to any sequence of tokens $x_1, \dots, x_T$.
-  \item Chain rule of probability (exact, no approximation):
+  \item Chain rule of probability:
   \[
     P(x_1,\dots,x_T) \;=\; \prod_{t=1}^{T} P(x_t \mid x_{<t})
   \]
@@ -150,6 +150,19 @@ At position $t$ the network gives $h_t\in\mathbb{R}^d$. Then
 \end{tikzpicture}
 \end{center}
 \callback{09/29 logistic regression}{$p(y{=}1\mid x)=\sigma(w^\top x+b)$ is the 2-class case; softmax is its $K$-class generalization. Here the features are $h_t$ and $K=|V|\approx 100{,}000$. Nothing else is new.}
+\end{frame}
+
+\begin{frame}{Pretraining in one picture}
+\begin{center}
+\includegraphics[width=0.74\textwidth]{figs/slp3_pretraining.png}
+\end{center}
+\vspace{-4pt}
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item Every position is a classification problem: the model outputs $\hat{y}$, a distribution over all possible next tokens.
+  \item Loss at that position: $-\log$ of the probability given to the \emc{true} next token. Average over the batch, backpropagate, update every weight (embeddings included).
+\end{itemize}
+\vspace{2pt}
+{\scriptsize\color{midgray} Figure: Jurafsky \& Martin, \emph{Speech and Language Processing}, 3rd ed.}
 \end{frame}
 
 \begin{frame}{Training = cross-entropy = maximum likelihood on the corpus}
