@@ -176,7 +176,7 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \vspace{4pt}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
-\centering\textbf{Base model} (GPT-3, 2020)\\[-1pt]{\small\color{midgray} trained only to predict the next word}
+\centering\textbf{Base model} (GPT-3, 2020)\\[-1pt]{\small\color{midgray} after pre-training only: predicts the next word}
 \begin{modelbox}[midgray]
 Explain the theory of gravity to a 6 year old.\\
 Explain the theory of relativity to a 6 year old in a few sentences.\\
@@ -192,7 +192,7 @@ People went to the moon, and they took pictures of what they saw, and sent them 
 \end{column}
 \end{columns}
 \vspace{4pt}
-\keybox{\textbf{Same network, two training recipes.} The base model continues the prompt the way web text would. The chat model is the \emc{same network} after more training on examples of helpful answers. That second stage is called \textbf{post-training}; the next slide maps it out.}
+\keybox{\textbf{Same network, two training stages.} \textbf{Pre-training} on web text gives the base model, which continues the prompt the way web text would. \textbf{Post-training} on examples of helpful answers turns the \emc{same network} into the chat model. The next slide maps out both stages.}
 \vspace{2pt}
 {\scriptsize\color{midgray} Example from OpenAI's InstructGPT announcement (2022).}
 \end{frame}
