@@ -279,7 +279,7 @@ arithmetic & $3 + 8 + 4 = $ \{\green{15}, \red{11}\}\\
 \begin{frame}{Decoding: from a probability distribution to text}
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
-Loop: compute $p_t$ $\to$ pick $x_t$ $\to$ append $\to$ repeat.
+Loop: compute $p_t$, pick $x_t$, append, repeat.
 \begin{itemize}\setlength{\itemsep}{3pt}
   \item \textbf{Greedy:} $x_t = \arg\max_i p_t(i)$. Deterministic; bland, repetitive.
   \item \textbf{Sampling:} $x_t \sim p_t$. Diverse; may pick nonsense from the tail.
@@ -306,5 +306,5 @@ Loop: compute $p_t$ $\to$ pick $x_t$ $\to$ append $\to$ repeat.
 \end{column}
 \end{columns}
 \vspace{2pt}
-\keybox{This is why ChatGPT answers the same question differently each time ($\tau>0$), and why we can ask for \emc{several different answers} to one question, the engine of reasoning training later today.}
+\keybox{This is why ChatGPT answers differently each time ($\tau>0$), and why we can ask for \emc{several different answers} to one question: the engine of reasoning training later today.}
 \end{frame}
