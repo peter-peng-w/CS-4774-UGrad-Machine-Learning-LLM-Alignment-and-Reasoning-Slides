@@ -46,7 +46,7 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \end{columns}
 \end{frame}
 
-\begin{frame}{Discriminative vs.\ generative --- and why an LLM is both}
+\begin{frame}{Discriminative vs.\ generative: an LLM is both}
 \begin{center}
 \begin{tikzpicture}[font=\small,>=Latex,node distance=6mm]
   \node[draw,rounded corners,fill=softgray,minimum width=2.6cm,minimum height=0.8cm,align=center] (x1) {image / features $x$};
@@ -63,8 +63,8 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \end{center}
 \begin{itemize}\setlength{\itemsep}{4pt}
   \item A classifier picks one of $K$ labels.
-  \item A generative model puts probability on \emph{whole pieces of data} and can produce new ones.
-  \item Today's surprise: an LLM is \emph{both} --- a classifier over the next word, used generatively.
+  \item A generative model puts probability on \emc{whole pieces of data} and can produce new ones.
+  \item An LLM is \emc{both}: a classifier over the next word, run in a loop to generate text.
 \end{itemize}
 \end{frame}
 
