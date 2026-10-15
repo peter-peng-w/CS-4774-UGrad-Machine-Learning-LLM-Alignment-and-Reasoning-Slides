@@ -94,19 +94,20 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \keybox{\textbf{The core has not changed.} Today's models are still \emc{neural networks trained by gradient descent on a loss}, exactly what you learned in the first half of this course. What changed is the \emc{architecture}, the \emc{data}, the \emc{scale}, and the \emc{training recipe}.}
 \end{frame}
 
-\begin{frame}{A short history --- and a map of this lecture}
+\begin{frame}{Zooming in: 2017 to 2026}
 \begin{center}
 \begin{tikzpicture}[font=\scriptsize,>=Latex]
-  \draw[very thick,uvanavy,->] (0.1,0) -- (13.2,0);
+  \draw[very thick,uvanavy,->] (0.0,0) -- (13.1,0);
   \foreach \x/\yr/\lab/\part/\side in {
-    1.0/2017/{Transformer\\``Attention is all you need''}/{}/1,
-    2.6/2018/{GPT-1, BERT\\pretrain, then fine-tune}/{Parts 2, 4}/-1,
-    4.2/2019/{GPT-2 (1.5B)\\coherent long text}/{Part 2}/1,
-    5.8/2020/{GPT-3 (175B)\\in-context learning}/{Part 3}/-1,
-    7.4/2022/{ChatGPT\\RLHF alignment}/{Parts 5--6}/1,
-    9.0/2023/{GPT-4, Llama\\open weights}/{}/-1,
-    10.6/2024/{OpenAI o1\\RL for reasoning}/{Part 7}/1,
-    12.2/2025/{DeepSeek-R1\\open reasoning, GRPO}/{Part 7}/-1}{
+    0.7/2017/{Transformer\\``Attention is all you need''}/{}/1,
+    2.15/2018/{GPT-1, BERT\\pretrain, then fine-tune}/{Parts 2, 4}/-1,
+    3.6/2019/{GPT-2 (1.5B)\\coherent long text}/{Part 2}/1,
+    5.05/2020/{GPT-3 (175B)\\in-context learning}/{Part 3}/-1,
+    6.5/2022/{ChatGPT\\RLHF alignment}/{Parts 5--6}/1,
+    7.95/2023/{GPT-4, Llama\\open weights}/{}/-1,
+    9.4/2024/{OpenAI o1\\RL for reasoning}/{Part 7}/1,
+    10.85/2025/{DeepSeek-R1\\open reasoning, GRPO}/{Part 7}/-1,
+    12.3/2026/{Agents\\models that act}/{later in CS 4774}/1}{
     \draw[uvanavy,thick] (\x,-0.12) -- (\x,0.12);
     \node[font=\scriptsize\bfseries] at (\x,-0.33) {\yr};
     \node[align=center,anchor={\ifnum\side=1 south\else north\fi}] at (\x,{\ifnum\side=1 0.3\else -0.6\fi}) {\lab\\[-1pt]\textcolor{uvaorange!85!black}{\bfseries\part}};
@@ -118,6 +119,7 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
   \item 2018--20: \textbf{bigger} models of the same kind, trained to predict the next word.
   \item 2022: the same network, \textbf{post-trained} to follow instructions and human preferences.
   \item 2024--25: trained with \textbf{reinforcement learning} to ``think'' before answering: $\sim$15\% $\to$ $\sim$80\% on olympiad math.
+  \item 2026: the same models as \textbf{agents}: they call tools, browse, and write code over many steps.
 \end{itemize}
 \end{frame}
 
