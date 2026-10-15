@@ -67,13 +67,14 @@
 \begin{columns}[T]
 \begin{column}{0.6\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figs/cot_vs_standard.png}
+\includegraphics[width=\textwidth]{figs/cot_vs_standard.png}\\[2pt]
+\scriptsize Few-shot chain-of-thought (\href{https://arxiv.org/abs/2201.11903}{Wei et al., 2022}).
 \end{column}
 \begin{column}{0.38\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item Show (or just request) \textbf{intermediate reasoning steps} before the final answer.
   \item Large gains on math and logic problems.
-  \item Why it helps: each generated step becomes context for the next prediction --- the model \textbf{computes in text}.
+  \item Why it helps: one forward pass does a \textbf{fixed amount of computation} per token. Writing the steps out puts each intermediate result back into the input, so the model gets a \emc{scratchpad} and, in effect, more steps of computation.
 \end{itemize}
 \end{column}
 \end{columns}
