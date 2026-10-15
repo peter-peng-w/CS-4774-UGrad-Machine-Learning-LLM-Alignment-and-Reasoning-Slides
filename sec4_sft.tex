@@ -124,27 +124,27 @@ SFT = imitate human-written responses. Four problems:
 \begin{enumerate}\setlength{\itemsep}{8pt}
   \item \textbf{Costly supervision:} someone must \emph{write} a full, high-quality response for every prompt.
   \item \textbf{Every token counts the same:} the loss penalizes a typo exactly like a factual error.
-  \item \textbf{A ceiling:} the model can only copy the demonstrator --- and for open-ended tasks there is no single ``right'' answer.
+  \item \textbf{A ceiling:} the model can only copy the demonstrator, and for open-ended tasks there is no single ``right'' answer.
   \item \textbf{Judging is easier than writing:} it is far easier to say \emph{which of two answers is better}, or whether an answer is \emph{correct}, than to write the best answer.
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{A new learning paradigm: learn from evaluation, not demonstration}
+\begin{frame}{A new paradigm: learn from evaluation, not demonstration}
 \begin{center}
 \begin{tikzpicture}[font=\small,>=Latex,node distance=8mm]
   \node[draw,rounded corners,fill=okgreen!12,minimum width=3.4cm,minimum height=1cm,align=center] (sft) {\textbf{SFT}\\\scriptsize copy a human response};
   \node[draw,rounded corners,fill=uvaorange!15,minimum width=3.4cm,minimum height=1cm,align=center,right=2.6cm of sft] (rl) {\textbf{RL}\\\scriptsize generate $\to$ score $\to$ update};
   \node[below=4mm of sft,align=center,font=\scriptsize,text=midgray] {needs: a written answer per prompt};
   \node[below=4mm of rl,align=center,font=\scriptsize,text=midgray] {needs: a \emph{score} per generated answer};
-  \draw[->,very thick,uvanavy] (sft) -- node[above,font=\scriptsize] {Parts 5--7} (rl);
+  \draw[->,very thick,uvanavy] (sft) -- node[above,font=\scriptsize] {the rest of today} (rl);
 \end{tikzpicture}
 \end{center}
 \vspace{4pt}
-\keybox{Let the model \emph{generate} its own responses, \emph{score} them, and update toward the ones that scored well. That is \textbf{reinforcement learning} (Part 5).}
+\keybox{Let the model \emc{generate} its own responses, \emc{score} them, and update toward the ones that scored well. That is \textbf{reinforcement learning}.}
 \vspace{6pt}
 Two kinds of score:
 \begin{itemize}\setlength{\itemsep}{3pt}
-  \item \textbf{Part 6:} ``humans prefer A over B'' $\to$ a learned reward model (RLHF), or used directly (DPO).
-  \item \textbf{Part 7:} ``the answer is correct'' $\to$ a program that checks it (RLVR, GRPO).
+  \item \textbf{Human preference:} ``A is better than B'' $\to$ a learned reward model (RLHF), or used directly (DPO).
+  \item \textbf{Correctness:} ``the answer is right'' $\to$ a program that checks it (RLVR, GRPO).
 \end{itemize}
 \end{frame}
