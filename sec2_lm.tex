@@ -186,7 +186,7 @@ At position $t$ the network gives $h_t\in\mathbb{R}^d$. Then
 \vspace{-4pt}
 \begin{itemize}\setlength{\itemsep}{2pt}
   \item Every position is a classification problem: the model outputs $\hat{y}$, a distribution over all possible next tokens.
-  \item Loss at that position: $-\log$ of the probability given to the \emc{true} next token. Average over the batch, backpropagate, update every weight (embeddings included).
+  \item Loss at that position: the \textbf{negative log-likelihood (NLL)} of the \emc{true} next token, $-\log \hat{y}_{\text{true}}$. Average over the batch, backpropagate, update every weight (embeddings included).
 \end{itemize}
 \vspace{2pt}
 {\scriptsize\color{midgray} Figure: Jurafsky \& Martin, \emph{Speech and Language Processing}, 3rd ed.}
