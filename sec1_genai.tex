@@ -203,10 +203,10 @@ People went to the moon, and they took pictures of what they saw, and sent them 
   stage/.style={draw,rounded corners,minimum width=2.75cm,minimum height=0.95cm,align=center,thick},
   data/.style={align=center,text width=2.9cm,font=\scriptsize},
   model/.style={draw,rounded corners,fill=softgray,minimum width=2.4cm,align=center,font=\scriptsize}]
-  \node[stage,fill=uvablue!12,draw=uvablue!70!black] (s1) {\textbf{1. Pretraining}\\\scriptsize Part 2};
-  \node[stage,fill=okgreen!12,draw=okgreen!70!black,right=0.8cm of s1] (s2) {\textbf{2. Supervised}\\\textbf{fine-tuning}\\\scriptsize Part 4};
-  \node[stage,fill=uvaorange!15,draw=uvaorange!80!black,right=0.8cm of s2] (s3) {\textbf{3. Preference}\\\textbf{alignment}\\\scriptsize Parts 5--6};
-  \node[stage,fill=badred!10,draw=badred!70!black,right=0.8cm of s3] (s4) {\textbf{4. RL with}\\\textbf{verifiable rewards}\\\scriptsize Part 7};
+  \node[stage,fill=uvablue!12,draw=uvablue!70!black] (s1) {\textbf{1. Pretraining}};
+  \node[stage,fill=okgreen!12,draw=okgreen!70!black,right=0.8cm of s1] (s2) {\textbf{2. Supervised}\\\textbf{fine-tuning}};
+  \node[stage,fill=uvaorange!15,draw=uvaorange!80!black,right=0.8cm of s2] (s3) {\textbf{3. Preference}\\\textbf{alignment}};
+  \node[stage,fill=badred!10,draw=badred!70!black,right=0.8cm of s3] (s4) {\textbf{4. RL with}\\\textbf{verifiable rewards}};
   \draw[->,thick] (s1) -- (s2); \draw[->,thick] (s2) -- (s3); \draw[->,thick] (s3) -- (s4);
   \node[data,above=0.35cm of s1] (d1) {\textbf{web text}\\trillions of tokens, \gray{no labels}};
   \node[data,above=0.35cm of s2] (d2) {\textbf{(instruction, response)}\\pairs written by people};
@@ -222,7 +222,7 @@ People went to the moon, and they took pictures of what they saw, and sent them 
 \end{center}
 \vspace{4pt}
 \begin{itemize}\setlength{\itemsep}{3pt}
-  \item Not in the chain: \textbf{prompting / in-context learning} (Part 3), which changes the \emc{input}, not the weights.
+  \item Not in the chain: \textbf{prompting / in-context learning}, which changes the \emc{input}, not the weights.
   \item For each stage we ask the course's four questions: \hl{Data?} \hl{Loss?} \hl{Optimization?} \hl{What is learned?}
 \end{itemize}
 \end{frame}
