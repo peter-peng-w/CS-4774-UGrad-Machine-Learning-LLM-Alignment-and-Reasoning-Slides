@@ -17,17 +17,21 @@
 
 \begin{frame}{Two ways to estimate $P(x_t \mid x_{<t})$}
 \begin{columns}[T]
-\begin{column}{0.5\textwidth}
+\begin{column}{0.6\textwidth}
 \textbf{Old way: count ($n$-gram models)}
-\[
-  P(\text{apple}\mid \text{I eat the}) \approx \frac{\#(\text{I eat the apple})}{\#(\text{I eat the})}
-\]
+{\small
+\begin{align*}
+  P(\text{apple}\mid \text{I eat the}) &= \frac{P(\text{I eat the apple})}{P(\text{I eat the})} && \text{\scriptsize\color{midgray} conditional probability}\\[2pt]
+  &\approx \frac{\#(\text{I eat the apple})}{\#(\text{I eat the})} && \text{\scriptsize\color{midgray} count in a corpus}
+\end{align*}}
+\vspace{-4pt}
 \begin{itemize}\setlength{\itemsep}{3pt}
+  \item each probability $\approx$ (count)/(corpus size); the corpus size cancels
   \item most 4-word sequences never occur, even in a huge corpus
   \item fixed window, no generalization
 \end{itemize}
 \end{column}
-\begin{column}{0.48\textwidth}
+\begin{column}{0.38\textwidth}
 \textbf{New way: a neural network}
 \[
   P(x_t \mid x_{<t}) \approx \mathrm{NN}_\theta(x_{<t})
