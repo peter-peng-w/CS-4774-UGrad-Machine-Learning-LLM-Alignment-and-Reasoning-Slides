@@ -53,12 +53,12 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
   \node[draw,rounded corners,fill=uvanavy!10,right=of x1,minimum height=0.8cm,minimum width=1.6cm] (m1) {model};
   \node[draw,rounded corners,fill=softgray,right=of m1,minimum height=0.8cm,text width=4.3cm,align=center] (y1) {label $y$\\\scriptsize a class (``cat'') or a number (3.7)};
   \draw[->,thick] (x1) -- (m1); \draw[->,thick] (m1) -- (y1);
-  \node[above=1mm of m1,text=uvanavy] {so far in this course: learn $p(y\mid x)$};
+  \node[anchor=south,text=uvanavy] at ($(x1.west)!0.5!(y1.east) + (0,0.5)$) {so far in this course: learn $p(y\mid x)$};
   \node[draw,rounded corners,fill=softgray,minimum width=2.6cm,minimum height=0.8cm,align=center,below=12mm of x1] (x2) {prompt $x$};
   \node[draw,rounded corners,fill=uvaorange!15,right=of x2,minimum height=0.8cm,minimum width=1.6cm] (m2) {LLM};
   \node[draw,rounded corners,fill=softgray,right=of m2,minimum height=0.8cm,text width=4.3cm,align=center] (y2) {text $y$\\\scriptsize a paragraph or a piece of code};
   \draw[->,thick] (x2) -- (m2); \draw[->,thick] (m2) -- (y2);
-  \node[above=1mm of m2,text=uvaorange!80!black] {today: learn $p(\text{text})$, then \emph{sample}};
+  \node[anchor=south,text=uvaorange!80!black] at ($(x2.west)!0.5!(y2.east) + (0,0.5)$) {today: learn $p(\text{text})$, then \emph{sample}};
 \end{tikzpicture}
 \end{center}
 \begin{itemize}\setlength{\itemsep}{4pt}
