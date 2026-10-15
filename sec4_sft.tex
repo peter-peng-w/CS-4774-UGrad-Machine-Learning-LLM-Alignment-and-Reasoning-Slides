@@ -85,7 +85,7 @@
   \foreach \i/\w in {1/hola,2/\texttt{<eos>}}{
     \node[draw,fill=okgreen!20,rounded corners,minimum height=0.5cm,inner sep=3pt] (b\i) at (1.5*\i+7.5,0) {\w};
   }
-  \draw[decorate,decoration={brace,amplitude=4pt,mirror},gray] (a1.south west) -- (a6.south east) node[midway,below=5pt,text=midgray] {prompt $x$: context only --- no loss, no gradient};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},gray] (a1.south west) -- (a6.south east) node[midway,below=5pt,text=midgray] {prompt $x$: context only, no loss, no gradient};
   \draw[decorate,decoration={brace,amplitude=4pt,mirror},okgreen!70!black] (b1.south west) -- (b2.south east) node[midway,below=5pt,text=okgreen!70!black] {response $y$: loss on each token};
   \draw[->,okgreen!70!black,thick] (a6.north) to[bend left=30] node[above,xshift=-6mm] {$-\log p_\theta(\text{hola}\mid x)$} (b1.north);
   \draw[->,okgreen!70!black,thick] (b1.north) to[bend left=70] node[above,xshift=4mm] {$-\log p_\theta(\texttt{<eos>}\mid x,\text{hola})$} (b2.north);
@@ -94,9 +94,9 @@
 \vspace{-4pt}
 \begin{itemize}\setlength{\itemsep}{4pt}
   \item Identical to the pretraining loss, except prompt tokens are \textbf{context only} (``loss masking'').
-  \item Same network, same softmax head, same optimizer; the model learns to \textbf{imitate} the demonstrations.
+  \item Same network, same softmax head, same optimizer. Maximizing the likelihood of the demonstrations = learning to \textbf{imitate} the demonstrated behavior (``behavior cloning'' in RL terms).
 \end{itemize}
-\keybox{\textbf{Nothing new in the math --- only new data.} What it learns: the \emph{format and behavior} of an assistant.}
+\keybox{\textbf{Nothing new in the math, only new data.} What it learns: the \emc{format and behavior} of an assistant.}
 \end{frame}
 
 \begin{frame}{What instruction tuning buys: zero-shot generalization}
