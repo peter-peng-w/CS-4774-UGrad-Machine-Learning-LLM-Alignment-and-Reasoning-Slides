@@ -51,7 +51,7 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \begin{tikzpicture}[font=\small,>=Latex,node distance=6mm]
   \node[draw,rounded corners,fill=softgray,minimum width=2.6cm,minimum height=0.8cm,align=center] (x1) {image / features $x$};
   \node[draw,rounded corners,fill=uvanavy!10,right=of x1,minimum height=0.8cm,minimum width=1.6cm] (m1) {model};
-  \node[draw,rounded corners,fill=softgray,right=of m1,minimum height=0.8cm,minimum width=2.6cm,align=center] (y1) {label $y$\\\scriptsize ``cat'', 3.7};
+  \node[draw,rounded corners,fill=softgray,right=of m1,minimum height=0.8cm,minimum width=2.6cm,align=center] (y1) {label $y$\\\scriptsize a class (``cat'') or a number (3.7)};
   \draw[->,thick] (x1) -- (m1); \draw[->,thick] (m1) -- (y1);
   \node[above=1mm of m1,text=uvanavy] {so far in this course: learn $p(y\mid x)$};
   \node[draw,rounded corners,fill=softgray,minimum width=2.6cm,minimum height=0.8cm,align=center,below=12mm of x1] (x2) {prompt $x$};
