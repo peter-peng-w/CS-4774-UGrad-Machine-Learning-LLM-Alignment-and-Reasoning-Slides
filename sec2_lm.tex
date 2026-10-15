@@ -41,6 +41,17 @@
 \callback{this course}{A network with parameters $\theta$, trained by gradient descent on a loss --- same as every model since Lecture 2.}
 \end{frame}
 
+\begin{frame}{The simplest neural language model}
+\begin{center}
+\includegraphics[width=0.66\textwidth]{figs/ffnn_lm.png}
+\end{center}
+\vspace{-2pt}
+\begin{itemize}\setlength{\itemsep}{3pt}
+  \item Look up an \textbf{embedding} for each of the last few tokens and concatenate them; one \textbf{hidden layer}; a \textbf{softmax} over the whole vocabulary.
+  \item This is the feed-forward network you already know, with a $|V|$-way output. Modern LLMs swap the middle for a Transformer and keep both ends.
+\end{itemize}
+\end{frame}
+
 \begin{frame}{Step 0: tokenization --- text becomes a sequence of integers}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
