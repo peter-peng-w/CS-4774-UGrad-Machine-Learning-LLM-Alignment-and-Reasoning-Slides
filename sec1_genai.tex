@@ -1,0 +1,157 @@
+% ============================ Part 1: GenAI & LLMs ============================
+\section{Part 1 $\cdot$ Generative AI \& LLMs}
+
+\begin{frame}{Generative AI is everywhere (2026)}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\begin{itemize}\setlength{\itemsep}{6pt}
+  \item \textbf{Text \& chat:} ChatGPT, Claude, Gemini, Llama, Qwen, DeepSeek
+  \item \textbf{Code:} GitHub Copilot, Cursor, Claude Code
+  \item \textbf{Images / video:} Stable Diffusion, Midjourney, Sora, Veo
+  \item \textbf{Multimodal:} one model reads images, audio, and text
+  \item \textbf{Agents:} LLMs that browse, call tools, write and run code
+\end{itemize}
+\end{column}
+\begin{column}{0.43\textwidth}
+\keybox{Behind all of it:\\[3pt]
+the \textbf{Transformer} (2017)\\
+$+$ \textbf{self-supervised pretraining} on web text\\
+$+$ \textbf{scale}\\
+$+$ \textbf{post-training} (fine-tuning, alignment, RL)\\[3pt]
+The last one is today's story.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Discriminative vs.\ generative --- and why an LLM is both}
+\begin{center}
+\begin{tikzpicture}[font=\small,>=Latex,node distance=6mm]
+  \node[draw,rounded corners,fill=softgray,minimum width=2.6cm,minimum height=0.8cm,align=center] (x1) {image / features $x$};
+  \node[draw,rounded corners,fill=uvanavy!10,right=of x1,minimum height=0.8cm,minimum width=1.6cm] (m1) {model};
+  \node[draw,rounded corners,fill=softgray,right=of m1,minimum height=0.8cm,minimum width=2.6cm,align=center] (y1) {label $y$\\\scriptsize ``cat'', 3.7};
+  \draw[->,thick] (x1) -- (m1); \draw[->,thick] (m1) -- (y1);
+  \node[above=1mm of m1,text=uvanavy] {so far in this course: learn $p(y\mid x)$};
+  \node[draw,rounded corners,fill=softgray,minimum width=2.6cm,minimum height=0.8cm,align=center,below=12mm of x1] (x2) {prompt $x$};
+  \node[draw,rounded corners,fill=uvaorange!15,right=of x2,minimum height=0.8cm,minimum width=1.6cm] (m2) {LLM};
+  \node[draw,rounded corners,fill=softgray,right=of m2,minimum height=0.8cm,minimum width=2.6cm,align=center] (y2) {text $y$\\\scriptsize a paragraph, a program};
+  \draw[->,thick] (x2) -- (m2); \draw[->,thick] (m2) -- (y2);
+  \node[above=1mm of m2,text=uvaorange!80!black] {today: learn $p(\text{text})$, then \emph{sample}};
+\end{tikzpicture}
+\end{center}
+\begin{itemize}\setlength{\itemsep}{4pt}
+  \item A classifier picks one of $K$ labels.
+  \item A generative model puts probability on \emph{whole pieces of data} and can produce new ones.
+  \item Today's surprise: an LLM is \emph{both} --- a classifier over the next word, used generatively.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{A short history --- and a map of this lecture}
+\begin{center}
+\begin{tikzpicture}[font=\scriptsize,>=Latex]
+  \draw[very thick,uvanavy,->] (0.1,0) -- (13.2,0);
+  \foreach \x/\yr/\lab/\part/\side in {
+    1.0/2017/{Transformer\\``Attention is all you need''}/{}/1,
+    2.6/2018/{GPT-1, BERT\\pretrain, then fine-tune}/{Parts 2, 4}/-1,
+    4.2/2019/{GPT-2 (1.5B)\\coherent long text}/{Part 2}/1,
+    5.8/2020/{GPT-3 (175B)\\in-context learning}/{Part 3}/-1,
+    7.4/2022/{ChatGPT\\RLHF alignment}/{Parts 5--6}/1,
+    9.0/2023/{GPT-4, Llama\\open weights}/{}/-1,
+    10.6/2024/{OpenAI o1\\RL for reasoning}/{Part 7}/1,
+    12.2/2025/{DeepSeek-R1\\open reasoning, GRPO}/{Part 7}/-1}{
+    \draw[uvanavy,thick] (\x,-0.12) -- (\x,0.12);
+    \node[font=\scriptsize\bfseries] at (\x,-0.33) {\yr};
+    \node[align=center,anchor={\ifnum\side=1 south\else north\fi}] at (\x,{\ifnum\side=1 0.3\else -0.6\fi}) {\lab\\[-1pt]\textcolor{uvaorange!85!black}{\bfseries\part}};
+  }
+\end{tikzpicture}
+\end{center}
+\vspace{6pt}
+\begin{itemize}\setlength{\itemsep}{4pt}
+  \item 2018--20: \textbf{bigger} models of the same kind, trained to predict the next word.
+  \item 2022: the same network, \textbf{post-trained} to follow instructions and human preferences.
+  \item 2024--25: trained with \textbf{reinforcement learning} to ``think'' before answering: $\sim$15\% $\to$ $\sim$80\% on olympiad math.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What is a large language model?}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{itemize}\setlength{\itemsep}{5pt}
+  \item a \textbf{Transformer decoder} that \textbf{generates text}
+  \item \textbf{pretrained} on trillions of words from the web
+  \item \textbf{billions} of parameters
+  \item a \textbf{general-purpose} solver: translation, coding, Q\&A, math, \dots
+\end{itemize}
+\vspace{8pt}
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+model & year & parameters\\
+\midrule
+GPT-1 & 2018 & 0.1 B\\
+GPT-2 & 2019 & 1.5 B\\
+GPT-3 & 2020 & 175 B\\
+Llama-3 & 2024 & 8 B / 70 B / 405 B\\
+\bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.48\textwidth}
+\keybox{\textbf{Under the hood, an LLM is a classifier.}\\[4pt]
+\textbf{Input:} the text so far.\\[2pt]
+\textbf{Output:} a probability distribution over the \emph{next} token --- one of $|V|\approx 100{,}000$ classes.\\[4pt]
+\textbf{Generation} = run the classifier, sample one token, append it, repeat.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Base model vs.\ chat model: same network, different training}
+Same prompt, two checkpoints of the \emph{same} 8B-parameter architecture.
+\begin{columns}[T]
+\begin{column}{0.49\textwidth}
+\textbf{Pretrained (``base'') model} --- next-word prediction only
+\begin{userbox}\textbf{Prompt:} Explain in one sentence why the sky is blue.\end{userbox}
+\begin{modelbox}[midgray]\textbf{Continuation:} \\
+Explain in one sentence why the sea is salty.\\
+Explain in one sentence why leaves change color in the fall.\\
+Explain in one sentence why ice floats.\\
+\emph{\gray{(\dots keeps generating more worksheet questions)}}
+\end{modelbox}
+\end{column}
+\begin{column}{0.49\textwidth}
+\textbf{Post-trained (``instruct'' / chat) model}
+\begin{userbox}\textbf{User:} Explain in one sentence why the sky is blue.\end{userbox}
+\begin{modelbox}\textbf{Assistant:} The sky looks blue because air molecules scatter the short (blue) wavelengths of sunlight much more strongly than the long (red) ones --- Rayleigh scattering --- so blue light reaches your eyes from every direction.\end{modelbox}
+\end{column}
+\end{columns}
+\vspace{6pt}
+\keybox{The base model is not refusing --- it is predicting what text usually follows such a line on the web. The difference is \textbf{post-training} (Parts 4--7).}
+\end{frame}
+
+\begin{frame}{The training pipeline --- our map for the rest of the lecture}
+\begin{center}
+\begin{tikzpicture}[font=\footnotesize,>=Latex,
+  stage/.style={draw,rounded corners,minimum width=2.75cm,minimum height=0.95cm,align=center,thick},
+  data/.style={align=center,text width=2.9cm,font=\scriptsize},
+  model/.style={draw,rounded corners,fill=softgray,minimum width=2.4cm,align=center,font=\scriptsize}]
+  \node[stage,fill=uvablue!12,draw=uvablue!70!black] (s1) {\textbf{1. Pretraining}\\\scriptsize Part 2};
+  \node[stage,fill=okgreen!12,draw=okgreen!70!black,right=0.8cm of s1] (s2) {\textbf{2. Supervised}\\\textbf{fine-tuning}\\\scriptsize Part 4};
+  \node[stage,fill=uvaorange!15,draw=uvaorange!80!black,right=0.8cm of s2] (s3) {\textbf{3. Preference}\\\textbf{alignment}\\\scriptsize Parts 5--6};
+  \node[stage,fill=badred!10,draw=badred!70!black,right=0.8cm of s3] (s4) {\textbf{4. RL with}\\\textbf{verifiable rewards}\\\scriptsize Part 7};
+  \draw[->,thick] (s1) -- (s2); \draw[->,thick] (s2) -- (s3); \draw[->,thick] (s3) -- (s4);
+  \node[data,above=0.35cm of s1] (d1) {\textbf{web text}\\trillions of tokens, \gray{no labels}};
+  \node[data,above=0.35cm of s2] (d2) {\textbf{(instruction, response)}\\pairs written by people};
+  \node[data,above=0.35cm of s3] (d3) {\textbf{preference pairs}\\``A is better than B''};
+  \node[data,above=0.35cm of s4] (d4) {\textbf{problems + checker}\\answer keys, unit tests};
+  \foreach \i in {1,2,3,4}{\draw[->,gray] (d\i) -- (s\i);}
+  \node[model,below=0.35cm of s1] (m1) {base model\\``text continuer''};
+  \node[model,below=0.35cm of s2] (m2) {chat model\\follows instructions};
+  \node[model,below=0.35cm of s3] (m3) {aligned model\\helpful, honest, harmless};
+  \node[model,below=0.35cm of s4] (m4) {reasoning model\\``thinks'' before answering};
+  \foreach \i in {1,2,3,4}{\draw[->,gray] (s\i) -- (m\i);}
+\end{tikzpicture}
+\end{center}
+\vspace{4pt}
+\begin{itemize}\setlength{\itemsep}{3pt}
+  \item Not in the chain: \textbf{prompting / in-context learning} (Part 3) --- no training; change the \emph{input}, not the weights.
+  \item For each stage we ask the course's four questions: \hl{Data?} \hl{Loss?} \hl{Optimization?} \hl{What is learned?}
+\end{itemize}
+\end{frame}

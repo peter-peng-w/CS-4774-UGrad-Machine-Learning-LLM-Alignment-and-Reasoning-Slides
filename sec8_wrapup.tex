@@ -1,0 +1,101 @@
+% ============================ Part 8: Wrap-up ============================
+\section{Part 8 $\cdot$ Wrap-up}
+
+\begin{frame}{The whole pipeline through this course's lens}
+\centering
+\scriptsize
+\renewcommand{\arraystretch}{1.35}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{1.75cm}p{2.9cm}p{3.1cm}p{2.3cm}p{2.9cm}@{}}
+\cellcolor{uvanavy}\textcolor{white}{\textbf{Stage}} &
+\cellcolor{uvanavy}\textcolor{white}{\textbf{Data}} &
+\cellcolor{uvanavy}\textcolor{white}{\textbf{Loss}} &
+\cellcolor{uvanavy}\textcolor{white}{\textbf{Optimization}} &
+\cellcolor{uvanavy}\textcolor{white}{\textbf{What it learns}}\\
+\textbf{Pretraining} (Part 2) & \cellcolor{dataC}web text, $\sim 10^{13}$ tokens, no labels & \cellcolor{lossC}cross-entropy on every next token (= MLE) & \cellcolor{optC}Adam, one pass, months on thousands of GPUs & \cellcolor{learnC}language, knowledge, skills --- a ``text continuer''\\
+\textbf{Prompting / ICL} (Part 3) & \cellcolor{dataC}a few examples in the input & \cellcolor{lossC}none & \cellcolor{optC}none --- weights frozen & \cellcolor{learnC}task adaptation at inference time\\
+\textbf{SFT} (Part 4) & \cellcolor{dataC}$10^4$--$10^6$ (prompt, response) pairs & \cellcolor{lossC}cross-entropy on response tokens & \cellcolor{optC}Adam, 1--3 epochs, small LR & \cellcolor{learnC}assistant format and behavior\\
+\textbf{Reward model} (Part 6) & \cellcolor{dataC}preference pairs $(x,y_w,y_l)$ & \cellcolor{lossC}logistic loss on score differences (Bradley--Terry) & \cellcolor{optC}Adam (a classifier) & \cellcolor{learnC}a proxy for human preference\\
+\textbf{RLHF / DPO} (Parts 5--6) & \cellcolor{dataC}own samples (RLHF); preference pairs (DPO) & \cellcolor{lossC}$-\E[r_\phi] + \beta\,\mathrm{KL}$; DPO: logistic loss on implicit rewards & \cellcolor{optC}PPO: clip + KL; DPO: plain Adam & \cellcolor{learnC}helpfulness, tone, refusals\\
+\textbf{RLVR / GRPO} (Part 7) & \cellcolor{dataC}problems + checker; $G$ own samples per problem & \cellcolor{lossC}$-\E[\hat A_i \log \pi_\theta]$ + clip + KL, $r\in\{0,1\}$ & \cellcolor{optC}GRPO: group baseline, no critic & \cellcolor{learnC}long chains of thought that end in correct answers\\
+\end{tabular}
+\end{frame}
+
+\begin{frame}{One gradient, many weightings}
+\keybox{\textbf{Every stage updates the same network with the same kind of gradient:}
+\[
+  \theta \leftarrow \theta + \alpha \sum_{\text{sequences } y}\; \textcolor{uvaorange!85!black}{w(y)}\;\nabla_\theta \log p_\theta(y \mid x)
+\]
+What changes is \textbf{where $y$ comes from} and \textbf{what the weight $w$ is}.}
+\vspace{4pt}
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.35}\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{stage} & \textbf{where $y$ comes from} & \textbf{weight $w(y)$} & \textbf{you know it as}\\
+\midrule
+pretraining & the web ($x$ = preceding text) & $1$ & MLE / cross-entropy\\
+SFT & a human demonstration & $1$ & MLE on response tokens\\
+RLHF (policy gradient) & the model's own sample & $\hat A = r_\phi(x,y) - b(x)$ & weighted SFT\\
+GRPO / RLVR & $G$ samples per problem & $\hat A_i = (r_i - \text{mean})/\text{std}$ & weighted SFT, group baseline\\
+DPO & a preference pair & $\pm\beta\,\sigma(\hat r_l - \hat r_w)$ & logistic regression\\
+\bottomrule
+\end{tabular}
+\vspace{8pt}
+
+\small Plus two guardrails whenever $y$ is self-generated: \textbf{clip} the per-token update, \textbf{KL-penalize} drift from the reference model.
+\end{frame}
+
+\begin{frame}{Where this goes next in CS 4774}
+\begin{itemize}\setlength{\itemsep}{7pt}
+  \item 10/20 --- Deep learning on text: bag-of-words to \textbf{attention}
+  \item 10/22 --- \textbf{Reinforcement learning} (value functions, Q-learning, Gym)
+  \item 10/27 --- \textbf{LLM architecture and training} (inside today's black box)
+  \item 10/29 --- Multimodal and vision-language models
+  \item 11/05 --- \textbf{Prompting, RAG, and fine-tuning} (incl.\ LoRA, more on DPO)
+  \item 11/10 --- Efficient LLMs and deployment
+  \item 11/12, 11/17 --- \textbf{Agents}, tool use, multi-agent systems, evaluation, safety
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Readings (all free online)}
+\begin{itemize}\setlength{\itemsep}{6pt}
+  \item Jurafsky \& Martin, \emph{Speech and Language Processing} (3rd ed.), Ch.\ 7--10 --- LMs, Transformers, fine-tuning, alignment.
+  \item Brown et al.\ (2020), \emph{Language Models are Few-Shot Learners} --- GPT-3 and in-context learning.
+  \item Wei et al.\ (2022), \emph{Chain-of-Thought Prompting Elicits Reasoning in LLMs}.
+  \item Ouyang et al.\ (2022), \emph{Training language models to follow instructions with human feedback} --- InstructGPT / RLHF.
+  \item Rafailov et al.\ (2023), \emph{Direct Preference Optimization}.
+  \item Shao et al.\ (2024), \emph{DeepSeekMath} --- GRPO; DeepSeek-AI (2025), \emph{DeepSeek-R1}.
+  \item Lambert et al.\ (2024), \emph{T\"ulu 3} --- RL with verifiable rewards.
+  \item Yue et al.\ (2025), \emph{Does RL really incentivize reasoning capacity in LLMs beyond the base model?}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Acknowledgments and figure credits}
+\small
+\textbf{These slides adapt material from:}
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item Prof.\ Yu Meng (UVA CS), NLP course lectures, Fall 2025: \emph{LM pretraining, fine-tuning \& decoding}; \emph{In-context learning \& scaling}; \emph{LLM reasoning}; \emph{RL for post-training LLMs}; \emph{LLM alignment}.
+  \item Prof.\ Jing Yang (UVA ECE), ECE 6501 \emph{Reinforcement Learning and Its Application to LLMs}: RL fundamentals, PPO, LLM basics, RLHF/DPO, GRPO, RLVR.
+  \item Prof.\ Yanjun Qi (UVA CS), CS 4774 Lecture 1; Peng Wang, CS 4774 practice sessions on DPO and GRPO (2025) and the two Colab notebooks.
+\end{itemize}
+\vspace{2pt}
+\textbf{Figures:} Jurafsky \& Martin, SLP3 (LM head); Sutton \& Barto (agent--environment loop); OpenAI tokenizer and \emph{Learning to reason with LLMs} (o1 plot); Kaplan et al.\ 2020 (scaling laws); Wei et al.\ 2022 (emergent abilities; chain-of-thought; FLAN); Brown et al.\ 2020 (few-shot prompting); Kojima et al.\ 2022 (zero-shot CoT); lmarena.ai (ICL demos); Ding et al.\ 2023 (UltraChat); Cui et al.\ 2023 (UltraFeedback); lm-class.org (preference-data cartoons); Stiennon et al.\ 2020 and Ouyang et al.\ 2022 (RLHF pipeline and results); Hugging Face TRL docs (GRPO visual) and a TRL DPO tutorial (DPO training curves); Lambert et al.\ 2024 (RLVR loop); Shao et al.\ 2024 (PPO vs.\ GRPO); DeepSeek-AI 2025 (R1-Zero curves, ``aha moment''); Yue et al.\ 2025 (pass@$k$); SimpleRL-Zoo, HKUST NLP (training curve); DPO/GRPO overview illustrations generated with Gemini.
+\end{frame}
+
+\begin{frame}{Thank you!}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{Three things to remember}
+\begin{enumerate}\setlength{\itemsep}{6pt}
+  \item An LLM is a next-token classifier --- softmax, cross-entropy, SGD --- trained on the whole web. Generation is that classifier in a loop.
+  \item Post-training reuses the \emph{same} network and the \emph{same} gradient: SFT changes the data; RL changes the \emph{weights} on self-generated data.
+  \item Reasoning emerges when the reward is \emph{correctness} and the model is free to search: sample a group, score, reinforce the winners (GRPO).
+\end{enumerate}
+\end{column}
+\begin{column}{0.43\textwidth}
+\textbf{Questions?}\\[10pt]
+Peng Wang \\ Ph.D.\ student, University of Virginia\\[10pt]
+Colab notebooks (DPO, GRPO): links on the ``Hands-on'' slide.
+\end{column}
+\end{columns}
+\end{frame}
