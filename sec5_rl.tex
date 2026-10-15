@@ -54,9 +54,9 @@ hard parts & (none of these) & \textbf{exploration}, \textbf{credit assignment},
 \begin{itemize}\setlength{\itemsep}{5pt}
   \item \textbf{State $s_t$} = (prompt $x$, tokens generated so far $y_{<t}$)
   \item \textbf{Action $a_t$} = the next token $y_t\in V$
-  \item \textbf{Policy} $\pi_\theta(a_t\mid s_t) = p_\theta(y_t\mid x, y_{<t})$ --- the same softmax classifier from Part 2
+  \item \textbf{Policy} $\pi_\theta(a_t\mid s_t) = p_\theta(y_t\mid x, y_{<t})$, the same softmax classifier as in language modeling
   \item \textbf{Episode} = one complete response $y = (y_1,\dots,y_T)$
-  \item \textbf{Reward} $R(x,y)$ = a score for the \emph{whole} response, given once at the end
+  \item \textbf{Reward} $R(x,y)$ = a score for the \emc{whole} response, given once at the end
 \end{itemize}
 \end{column}
 \begin{column}{0.43\textwidth}
@@ -67,7 +67,7 @@ hard parts & (none of these) & \textbf{exploration}, \textbf{credit assignment},
 \end{columns}
 \vspace{4pt}
 \keybox{\textbf{Objective:} \; $J(\theta) = \E_{x\sim\mathcal{D}}\,\E_{y\sim\pi_\theta(\cdot\mid x)}\big[R(x,y)\big]$\\[3pt]
-\small Where does $R$ come from? \textbf{Part 6:} a reward model learned from human preferences. \textbf{Part 7:} a program that checks the answer.}
+\small Where does $R$ come from? Either a \textbf{reward model} learned from human preferences (RLHF), or a \textbf{program} that checks the answer (RLVR).}
 \end{frame}
 
 \begin{frame}{Policy gradient: how to increase a reward you can only sample}
