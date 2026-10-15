@@ -279,32 +279,32 @@ arithmetic & $3 + 8 + 4 = $ \{\green{15}, \red{11}\}\\
 \begin{frame}{Decoding: from a probability distribution to text}
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
-Loop: compute $p_t$ $\to$ pick a token $x_t$ $\to$ append $\to$ repeat until \texttt{<EOS>}.
-\begin{itemize}\setlength{\itemsep}{4pt}
+Loop: compute $p_t$ $\to$ pick $x_t$ $\to$ append $\to$ repeat.
+\begin{itemize}\setlength{\itemsep}{3pt}
   \item \textbf{Greedy:} $x_t = \arg\max_i p_t(i)$. Deterministic; bland, repetitive.
   \item \textbf{Sampling:} $x_t \sim p_t$. Diverse; may pick nonsense from the tail.
-  \item \textbf{Temperature $\tau$:} $p^{(\tau)}_t(i) \propto \exp(z_{t,i}/\tau)$ --- $\tau\to 0$ greedy, $\tau\uparrow$ flatter.
-  \item \textbf{Top-$k$ / top-$p$:} sample only from the most likely tokens.
+  \item \textbf{Temperature $\tau$:} divide the logits by $\tau$ before the softmax, $p^{(\tau)}_t(i) \propto \exp(z_{t,i}/\tau)$. \; $\tau\to 0$: greedy; $\tau=1$: the model's own $p_t$; $\tau\to\infty$: uniform.
+  \item \textbf{Top-$k$ / top-$p$:} cut off the tail, then sample from what is left.
 \end{itemize}
 \end{column}
 \begin{column}{0.48\textwidth}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[group style={group size=3 by 1,horizontal sep=0.25cm},width=0.36\textwidth,height=3.2cm,
-  ybar,/pgf/bar width=5pt,ymin=0,ymax=1,xtick=data,symbolic x coords={cake,pie,apple,banana,rock},
-  xticklabel style={rotate=60,anchor=east,font=\tiny},ytick={0,0.5,1},yticklabel style={font=\tiny},
-  title style={font=\scriptsize,yshift=-4pt},enlarge x limits=0.2]
-\nextgroupplot[title={$\tau=0.5$}]
+\begin{axis}[ybar,width=\textwidth,height=4.1cm,bar width=5pt,ymin=0,ymax=1,
+  symbolic x coords={cake,pie,apple,banana,rock},xtick=data,
+  xticklabel style={font=\scriptsize},ytick={0,0.5,1},yticklabel style={font=\scriptsize},
+  ylabel={$p(\text{next token})$},ylabel style={font=\scriptsize},
+  legend style={font=\scriptsize,draw=none,fill=none,at={(0.97,0.95)},anchor=north east},
+  enlarge x limits=0.15,axis line style={gray}]
 \addplot[fill=uvanavy!60,draw=uvanavy] coordinates {(cake,0.831) (pie,0.112) (apple,0.041) (banana,0.015) (rock,0.0003)};
-\nextgroupplot[title={$\tau=1$},yticklabels={}]
 \addplot[fill=uvaorange!70,draw=uvaorange!80!black] coordinates {(cake,0.573) (pie,0.211) (apple,0.128) (banana,0.078) (rock,0.010)};
-\nextgroupplot[title={$\tau=2$},yticklabels={}]
 \addplot[fill=okgreen!60,draw=okgreen!70!black] coordinates {(cake,0.387) (pie,0.235) (apple,0.183) (banana,0.142) (rock,0.052)};
-\end{groupplot}
-\end{tikzpicture}\\
-\scriptsize Same logits for ``I eat the \_\_\_'', three temperatures.
+\legend{$\tau=0.5$ (sharper),$\tau=1$,$\tau=2$ (flatter)}
+\end{axis}
+\end{tikzpicture}\\[-2pt]
+\scriptsize The same logits for ``I eat the \_\_\_'' at three temperatures.
 \end{column}
 \end{columns}
-\vspace{6pt}
-\keybox{Why ChatGPT answers the same question differently each time --- and why ``sample several answers to one question'' is a key tool in Part 7.}
+\vspace{2pt}
+\keybox{This is why ChatGPT answers the same question differently each time ($\tau>0$), and why we can ask for \emc{several different answers} to one question, the engine of reasoning training later today.}
 \end{frame}
