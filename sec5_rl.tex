@@ -19,14 +19,14 @@
 \begin{column}{0.52\textwidth}
 \begin{itemize}\setlength{\itemsep}{5pt}
   \item \textbf{State $s_t$:} what the agent observes; \textbf{action $a_t$:} what it does.
-  \item \textbf{Reward $r_t$:} a number from the environment --- the only feedback.
-  \item \textbf{Policy $\pi_\theta(a\mid s)$:} a distribution over actions given the state --- a classifier, again!
+  \item \textbf{Reward $r_t$:} a number from the environment. It is the \emc{only} feedback the agent gets.
+  \item \textbf{Policy $\pi_\theta(a\mid s)$:} a distribution over actions given the state. In other words, \emc{a classifier again}.
   \item \textbf{Goal:} maximize the expected total reward $J(\theta) = \E_{\pi_\theta}\big[\sum_t r_t\big]$.
 \end{itemize}
 \end{column}
 \end{columns}
 \vspace{6pt}
-\keybox{Examples: Atari / Go (reward = score, win), a walking robot (distance), \dots\ and a chatbot (?).\\ Prof.\ Qi covers RL properly on 10/22; today, just enough to train an LLM.}
+\keybox{Examples: Atari and Go (reward = score, win), a walking robot (distance), \dots\ and a chatbot?}
 \end{frame}
 
 \begin{frame}{Supervised learning vs.\ reinforcement learning}
