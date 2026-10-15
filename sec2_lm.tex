@@ -102,33 +102,56 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Inside the network: a Transformer (just enough for today)}
+\begin{frame}{The network is a Transformer}
 \begin{columns}[T]
-\begin{column}{0.52\textwidth}
+\begin{column}{0.4\textwidth}
+\centering
+\includegraphics[height=0.8\textheight]{figs/transformer_arch.png}
+\end{column}
+\begin{column}{0.58\textwidth}
+\vspace{10pt}
+\begin{itemize}\setlength{\itemsep}{6pt}
+  \item The architecture from \href{https://arxiv.org/abs/1706.03762}{\emph{Attention Is All You Need}} (Vaswani et al., 2017). GPT-style LLMs keep only the right half, the \textbf{decoder}: $N$ identical layers of attention + feed-forward, stacked.
+  \item Look at the two ends: \textbf{embeddings} go in at the bottom; \textbf{Linear + Softmax} over the vocabulary comes out at the top. Those are the parts we care about today.
+\end{itemize}
+\vspace{4pt}
+\keybox{\textbf{For today, the middle is a black box} $f_\theta$: a big differentiable function from the tokens so far to a vector $h_t$, trained by gradient descent. The course opens the box later (attention, Transformers).}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Inside the network (just enough for today)}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item A deep stack of layers: $h^{(\ell)} = f^{(\ell)}_\theta\big(h^{(\ell-1)}\big)$, \; $L = 32$ for Llama-3-8B.
   \item Each layer mixes information \emph{across positions} (attention) and transforms each position (feed-forward).
-  \item Position $t$ only sees positions $\le t$ --- no cheating when predicting $x_{t+1}$.
+  \item Position $t$ only sees positions $\le t$: no cheating when predicting $x_{t+1}$.
   \item All positions are processed in parallel: this is what makes training on trillions of tokens feasible.
 \end{itemize}
 \end{column}
-\begin{column}{0.46\textwidth}
+\begin{column}{0.48\textwidth}
 \centering
 \begin{tikzpicture}[font=\scriptsize,>=Latex]
   \foreach \i/\w in {1/The,2/hippo,3/ate,4/my,5/homework}{
     \node[draw,fill=softgray,rounded corners,minimum width=0.9cm,minimum height=0.45cm] (in\i) at (1.15*\i,0) {\w};
     \node[draw,fill=uvanavy!15,circle,inner sep=2pt] (h1\i) at (1.15*\i,1.15) {};
-    \node[draw,fill=uvanavy!15,circle,inner sep=2pt] (h2\i) at (1.15*\i,2.3) {};
-    \draw[->] (in\i) -- (h1\i); \draw[->] (h1\i) -- (h2\i);
+    \node[draw,fill=uvanavy!15,circle,inner sep=2pt] (hL\i) at (1.15*\i,2.75) {};
+    \draw[->] (in\i) -- (h1\i);
+    \draw[->,gray!70,dashed] (h1\i) -- (hL\i);
   }
-  \node[draw,fill=uvanavy!30,rounded corners,minimum width=5.7cm,minimum height=0.42cm] at (3.45,0.75) {layer 1 (attention + feed-forward)};
-  \node[draw,fill=uvanavy!30,rounded corners,minimum width=5.7cm,minimum height=0.42cm] at (3.45,1.9) {layer $L$ (attention + feed-forward)};
-  \node at (3.45,1.33) {$\vdots$};
-  \node[above=2pt of h23,text=uvaorange!80!black] {$h_t$ $\to$ predict the next token};
+  \node[draw,fill=uvanavy!30,rounded corners,minimum width=5.7cm,minimum height=0.42cm] at (3.45,0.72) {layer 1 (attention + feed-forward)};
+  \node[fill=white,inner sep=1pt,text=midgray] at (3.45,1.95) {$\vdots$\quad layers $2,\dots,L-1$\quad$\vdots$};
+  \node[draw,fill=uvanavy!30,rounded corners,minimum width=5.7cm,minimum height=0.42cm] at (3.45,2.32) {layer $L$ (attention + feed-forward)};
+  \node[left=0.5mm of hL5,text=uvanavy] {$h_t$};
+  \node[draw,fill=okgreen!15,draw=okgreen!70!black,rounded corners,minimum width=1.5cm,minimum height=0.4cm] (sm) at (5.75,3.55) {linear + softmax};
+  \draw[->,thick] (hL5) -- (sm);
+  \node[anchor=south east,text=uvaorange!85!black] at ([yshift=1.5mm]sm.north east) {$p(\text{next token})$:\; ``.'' 0.5,\; ``yesterday'' 0.2,\; \dots};
+  \node[text=midgray,align=center,font=\tiny] at (2.0,3.3) {(in training, every position\\predicts its own next token)};
 \end{tikzpicture}
 \end{column}
 \end{columns}
-\vspace{6pt}
+\vspace{2pt}
 \callback{10/01 NN \& deep learning}{A Transformer is ``just'' another architecture: layers, nonlinearities, residuals, a loss at the top, gradients flowing down. Attention on 10/20, the full Transformer on 10/27.}
 \end{frame}
 
