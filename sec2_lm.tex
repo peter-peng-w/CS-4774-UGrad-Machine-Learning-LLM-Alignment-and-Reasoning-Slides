@@ -123,11 +123,11 @@
 \begin{frame}{Inside the network (just enough for today)}
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
-\begin{itemize}\setlength{\itemsep}{6pt}
+\begin{itemize}\setlength{\itemsep}{4pt}
   \item A deep stack of layers: $h^{(\ell)} = f^{(\ell)}_\theta\big(h^{(\ell-1)}\big)$, \; $L = 32$ for Llama-3-8B.
   \item Each layer mixes information \emph{across positions} (attention) and transforms each position (feed-forward).
   \item Position $t$ only sees positions $\le t$: no cheating when predicting $x_{t+1}$.
-  \item All positions are processed in parallel: this is what makes training on trillions of tokens feasible.
+  \item \textbf{In training}, all positions are processed in parallel in one forward pass, which makes training on trillions of tokens feasible. At generation time, tokens come out one at a time.
 \end{itemize}
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -152,7 +152,7 @@
 \end{column}
 \end{columns}
 \vspace{2pt}
-\callback{10/01 NN \& deep learning}{A Transformer is ``just'' another architecture: layers, nonlinearities, residuals, a loss at the top, gradients flowing down. Attention on 10/20, the full Transformer on 10/27.}
+\callback{neural networks \& deep learning}{A Transformer is ``just'' another architecture: layers, nonlinearities, residuals, a loss at the top, gradients flowing down. Attention and the full Transformer come later in this course.}
 \end{frame}
 
 \begin{frame}{The output layer is multi-class logistic regression}
