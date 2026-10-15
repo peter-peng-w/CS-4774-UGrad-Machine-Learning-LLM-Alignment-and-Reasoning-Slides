@@ -37,7 +37,7 @@
 \begin{modelbox}La oficina se construy\'o en tres meses.\end{modelbox}
 \end{column}
 \begin{column}{0.48\textwidth}
-\textbf{Chat format} --- multi-turn, with roles, serialized with special tokens:
+\textbf{Chat format:} multi-turn, with roles, serialized with special tokens:
 \begin{tcolorbox}[colback=softgray,colframe=softgray!60!black,boxrule=0.4pt,arc=3pt,left=5pt,right=5pt,top=3pt,bottom=3pt,fontupper=\scriptsize\ttfamily]
 \{"role": "user", "content": "Weather today?"\}\\
 \{"role": "assistant", "content": "Sunny, high of 75."\}\\
@@ -45,8 +45,8 @@
 \{"role": "assistant", "content": "Partly cloudy, 72."\}
 \end{tcolorbox}
 \begin{itemize}\setlength{\itemsep}{3pt}
-  \item The model learns when to \emph{start} and when to \emph{stop} (\texttt{<eos>}), and to follow the instruction.
-  \item $10^4$--$10^6$ examples --- tiny next to $10^{13}$ pretraining tokens.
+  \item The model learns when to \emc{start} (right after the \texttt{<assistant>} marker), when to \emc{stop} (by emitting \texttt{<eos>}), and to follow the instruction.
+  \item $10^4$--$10^6$ examples, tiny next to $10^{13}$ pretraining tokens.
 \end{itemize}
 \end{column}
 \end{columns}
