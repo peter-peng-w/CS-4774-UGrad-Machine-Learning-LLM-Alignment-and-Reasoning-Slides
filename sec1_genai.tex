@@ -172,26 +172,29 @@ $+$ \textbf{mid- and post-training}\\ \hspace*{1.2em}{\small(fine-tuning, alignm
 \end{frame}
 
 \begin{frame}{Base model vs.\ chat model: same network, different training}
-Same prompt, two checkpoints of the \emph{same} 8B-parameter architecture.
+\begin{userbox}\textbf{Prompt:} Explain the moon landing to a 6 year old in a few sentences.\end{userbox}
+\vspace{4pt}
 \begin{columns}[T]
 \begin{column}{0.49\textwidth}
-\textbf{Pretrained (``base'') model} --- next-word prediction only
-\begin{userbox}\textbf{Prompt:} Explain in one sentence why the sky is blue.\end{userbox}
-\begin{modelbox}[midgray]\textbf{Continuation:} \\
-Explain in one sentence why the sea is salty.\\
-Explain in one sentence why leaves change color in the fall.\\
-Explain in one sentence why ice floats.\\
-\emph{\gray{(\dots keeps generating more worksheet questions)}}
+\centering\textbf{Base model} (GPT-3, 2020)\\[-1pt]{\small\color{midgray} trained only to predict the next word}
+\begin{modelbox}[midgray]
+Explain the theory of gravity to a 6 year old.\\
+Explain the theory of relativity to a 6 year old in a few sentences.\\
+Explain the big bang theory to a 6 year old.\\
+Explain evolution to a 6 year old.
 \end{modelbox}
 \end{column}
 \begin{column}{0.49\textwidth}
-\textbf{Post-trained (``instruct'' / chat) model}
-\begin{userbox}\textbf{User:} Explain in one sentence why the sky is blue.\end{userbox}
-\begin{modelbox}\textbf{Assistant:} The sky looks blue because air molecules scatter the short (blue) wavelengths of sunlight much more strongly than the long (red) ones --- Rayleigh scattering --- so blue light reaches your eyes from every direction.\end{modelbox}
+\centering\textbf{Chat model} (InstructGPT, 2022)\\[-1pt]{\small\color{midgray} the same network after post-training}
+\begin{modelbox}
+People went to the moon, and they took pictures of what they saw, and sent them back to the earth so we could all see them.
+\end{modelbox}
 \end{column}
 \end{columns}
-\vspace{6pt}
-\keybox{The base model is not refusing --- it is predicting what text usually follows such a line on the web. The difference is \textbf{post-training} (Parts 4--7).}
+\vspace{8pt}
+\keybox{The base model is not being difficult. It is doing exactly what it was trained for: predicting what text usually follows such a line on the web. Turning that into an assistant is \textbf{post-training} (Parts 4--7).}
+\vspace{2pt}
+{\scriptsize\color{midgray} Example from OpenAI's InstructGPT announcement (2022).}
 \end{frame}
 
 \begin{frame}{The training pipeline --- our map for the rest of the lecture}

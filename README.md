@@ -35,8 +35,7 @@ latexmk -pdf main.tex        # TeX Live 2023+; needs beamer, tikz, pgfplots, tco
 
 ## Things to finalize before Thursday
 
-1. **Slide 7 (base vs. chat demo):** the two outputs are *illustrative*. Replace with real outputs from a notebook
-   (e.g. `Llama-3-8B` vs `Llama-3-8B-Instruct`).
+1. **Slide 9 (base vs. chat):** uses the real GPT-3 vs. InstructGPT "moon landing" example from OpenAI's 2022 announcement.
 2. **Slide 64 (Hands-on):** notebook 1 = DPO (TRL, Zephyr-7B-SFT-QLoRA on UltraFeedback), notebook 2 = GRPO with a
    rule-based verifier. Natural spot for the 2–3 min live demo: right after this slide, run the GRPO notebook.
 3. **Slides 1 / 71:** affiliation line (department), email if you want it on the last slide.
