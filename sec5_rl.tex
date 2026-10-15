@@ -71,21 +71,23 @@ hard parts & (none of these) & \textbf{exploration}, \textbf{credit assignment},
 \end{frame}
 
 \begin{frame}{Policy gradient: how to increase a reward you can only sample}
-We cannot backprop through $R$ (a human judgment or a black-box checker). But we can move probability mass toward responses that scored well:
-\[
-  \nabla_\theta J(\theta) = \E_{y\sim\pi_\theta(\cdot\mid x)}\Big[\, R(x,y)\; \nabla_\theta \log \pi_\theta(y\mid x) \,\Big],
-  \qquad \log\pi_\theta(y\mid x) = \sum_t \log p_\theta(y_t\mid x, y_{<t})
-\]
-\textbf{REINFORCE} (Williams, 1992): sample a response $y$, then
-\[
-  \theta \leftarrow \theta + \alpha\, R(x,y)\, \nabla_\theta \log \pi_\theta(y\mid x).
-\]
-\begin{itemize}\setlength{\itemsep}{4pt}
-  \item Good response ($R$ large): make every token of it more likely. Bad response: less likely.
-  \item Needs no labels and no differentiable reward --- just samples and scores.
-\end{itemize}
-\vspace{2pt}
-\scriptsize\gray{One-line derivation: $\nabla_\theta \sum_y \pi_\theta(y) R(y) = \sum_y \pi_\theta(y)\,\nabla_\theta\log\pi_\theta(y)\, R(y)$ because $\nabla\pi = \pi\,\nabla\log\pi$.}
+Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differentiate $R$ (a human judgment, a checker), but we can differentiate $\pi_\theta$:
+\begin{align*}
+  \nabla_\theta J(\theta) &= \sum_y \nabla_\theta \pi_\theta(y\mid x)\, R(x,y) && \text{\small\color{midgray} $R$ does not depend on $\theta$}\\
+  &= \sum_y \pi_\theta(y\mid x)\, \nabla_\theta \log \pi_\theta(y\mid x)\, R(x,y) && \text{\small\color{midgray} because $\nabla \pi = \pi\,\nabla\log\pi$}\\
+  &= \E_{y\sim\pi_\theta(\cdot\mid x)}\Big[\, R(x,y)\; \nabla_\theta \log \pi_\theta(y\mid x) \,\Big] && \text{\small\color{midgray} an expectation: estimate it with samples}
+\end{align*}
+\vspace{-4pt}
+\textbf{REINFORCE} (Williams, 1992): sample a response $y$, then $\;\theta \leftarrow \theta + \alpha\, R(x,y)\, \nabla_\theta \log \pi_\theta(y\mid x)$.
+\vspace{-2pt}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\keybox{\textbf{Why the log?} The sum runs over all $|V|^T$ possible responses. The identity $\nabla\pi=\pi\,\nabla\log\pi$ turns it into an \emc{average over samples} from the current policy.}
+\end{column}
+\begin{column}{0.48\textwidth}
+\keybox{\textbf{And it splits per token:} $\log\pi_\theta(y\mid x)=\sum_t \log p_\theta(y_t\mid x,y_{<t})$, so the update is the \emc{SFT gradient} on $y$, weighted by $R$.}
+\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Read it as: sample $\to$ score $\to$ weighted SFT step}
