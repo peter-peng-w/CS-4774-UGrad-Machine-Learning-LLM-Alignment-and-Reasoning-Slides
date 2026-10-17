@@ -43,7 +43,7 @@
 \end{column}
 \end{columns}
 \vspace{10pt}
-\callback{this course}{A network with parameters $\theta$, trained by gradient descent on a loss --- same as every model since Lecture 2.}
+\callback{this course}{A network with parameters $\theta$, trained by gradient descent on a loss: the same as every model since Lecture 2.}
 \end{frame}
 
 \begin{frame}{The simplest neural language model}
@@ -57,14 +57,14 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Step 0: tokenization --- text becomes a sequence of integers}
+\begin{frame}{Step 0: tokenization, text becomes a sequence of integers}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
 \begin{itemize}\setlength{\itemsep}{5pt}
   \item A \textbf{token} is a common chunk of characters; the \textbf{vocabulary} $V$ lists all tokens ($|V|\approx$ 50k--128k).
   \item \textbf{Tokenization} maps text $\to$ token IDs in $\{1,\dots,|V|\}$.
   \item \textbf{Subword} tokens: frequent words are one token, rare words are split:\\ \quad \texttt{unhappiness} $\to$ \texttt{un} + \texttt{happi} + \texttt{ness}
-  \item \gray{Foreshadowing: the model never sees letters, only tokens --- one reason ``how many r's in \emph{strawberry}'' is hard (Part 3).}
+  \item \gray{Foreshadowing: the model never sees letters, only tokens. That is one reason ``how many r's in \emph{strawberry}'' is hard (we will see it in the prompting part).}
 \end{itemize}
 \end{column}
 \begin{column}{0.46\textwidth}

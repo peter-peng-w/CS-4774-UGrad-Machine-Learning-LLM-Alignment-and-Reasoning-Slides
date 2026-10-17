@@ -113,19 +113,21 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
 
 \begin{frame}{Baselines and the advantage: good \emph{relative to what}?}
 \begin{columns}[T]
-\begin{column}{0.54\textwidth}
-\begin{itemize}\setlength{\itemsep}{5pt}
-  \item If every response scores $0.6$--$0.9$, \emph{all} get pushed up; only differences carry information, and one sample is very noisy.
-  \item Fix: subtract a \textbf{baseline} $b(x)$. The expected gradient is unchanged, the variance is much lower:
+\begin{column}{0.56\textwidth}
+\begin{itemize}\setlength{\itemsep}{3pt}
+  \item If every response scores $0.6$--$0.9$, \emph{all} get pushed up. Only differences carry information.
+  \item Fix: subtract a \textbf{baseline} $b(x)$ that does \emc{not depend on the sampled $y$}:
   \[ \nabla_\theta J = \E\big[(R(x,y) - b(x))\,\nabla_\theta\log\pi_\theta(y\mid x)\big] \]
+  \vspace{-10pt}
+  \item Still unbiased, since $\E_{y}[\nabla_\theta\log\pi_\theta(y\mid x)] = 0$. A \emc{well-chosen} $b$ (near the expected reward) cuts the variance a lot; a poor one can even raise it.
   \item \textbf{Advantage} $A = R - b$: ``how much better than expected''.
-  \item $b$ comes from a learned value function (``critic'') in classic RL, and from a \emc{group of samples} in GRPO (later today).
+  \item $b$: a learned value function (``critic'') in classic RL; a \emc{group of samples} in GRPO.
 \end{itemize}
 \end{column}
-\begin{column}{0.44\textwidth}
+\begin{column}{0.42\textwidth}
 \centering
 \begin{tikzpicture}
-\begin{axis}[width=\textwidth,height=4.6cm,ybar,/pgf/bar width=11pt,ymin=0,ymax=0.5,
+\begin{axis}[width=\textwidth,height=4.2cm,ybar,/pgf/bar width=10pt,ymin=0,ymax=0.5,
   symbolic x coords={$y_1$,$y_2$,$y_3$,$y_4$},xtick=data,ylabel={$\pi_\theta(y\mid x)$},ylabel style={font=\scriptsize},
   yticklabel style={font=\tiny},xticklabel style={font=\scriptsize},enlarge x limits=0.18,title={advantage $A=R-b$: push mass toward $A>0$},title style={font=\scriptsize}]
 \addplot[fill=uvanavy!40,draw=uvanavy] coordinates {($y_1$,0.30) ($y_2$,0.25) ($y_3$,0.25) ($y_4$,0.20)};

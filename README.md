@@ -1,8 +1,8 @@
 # CS 4774 guest lecture — "From Next-Token Prediction to Reasoning"
 
-Beamer source for the 70-minute guest lecture (71 slides, 16:9, Beamer `default` theme in the
-style of Prof. Jing Yang's ECE 6501 decks). v4: one idea per slide, more figures, all credits on
-one acknowledgment slide at the end.
+Beamer source for the 70-minute guest lecture (83 slides, 16:9, Beamer `default` theme in the
+style of Prof. Jing Yang's ECE 6501 decks). One idea per slide, section-divider pages before
+Parts 2-8 (`\partslide`), all credits on one acknowledgment slide at the end.
 
 ## Build
 
@@ -16,8 +16,8 @@ latexmk -pdf main.tex        # TeX Live 2023+; needs beamer, tikz, pgfplots, tco
 |---|---|
 | `main.tex` | preamble, colors, macros (`\callback`, `\keybox`, chat boxes), `\input`s |
 | `sec0_opening.tex` | title, agenda (with per-part minutes, "you already know" / "coming later" boxes) |
-| `sec1_genai.tex` | Part 1 (6 slides) — GenAI, discriminative vs. generative, timeline, what is an LLM, base vs. chat demo, pipeline map |
-| `sec2_lm.tex` | Part 2 (11) — chain rule, n-gram vs. NN, tokenization, end-to-end pipeline, black box, softmax head, CE/MLE, multi-task view, scaling, emergence, decoding |
+| `sec1_genai.tex` | Part 1 — GenAI (tug-of-war illustration), "behind all of it", discriminative vs. generative, ML timeline, LLM timeline 2017-2026, what is an LLM (autoregressive loop figure), base vs. chat (InstructGPT moon-landing example), pipeline map |
+| `sec2_lm.tex` | Part 2 — chain rule, n-gram vs. NN, simplest neural LM, tokenization, end-to-end pipeline, Transformer architecture, inside the network, softmax head, pretraining in one picture, CE/MLE, multi-task view, scaling, emergence, decoding |
 | `sec3_icl.tex` | Part 3 (6) — prompting, ICL, ICL demos, chain-of-thought, zero-shot CoT, limits of prompting |
 | `sec4_sft.tex` | Part 4 (7) — pretrain+fine-tune, instruction data, FLAN/UltraChat, SFT loss (masking figure), FLAN results, limits of imitation, SFT→RL |
 | `sec5_rl.tex` | Part 5 (8) — RL loop, SL vs. RL, LLM as a policy, REINFORCE (= weighted SFT), baseline/advantage, PPO clip, KL penalty |
@@ -31,16 +31,17 @@ latexmk -pdf main.tex        # TeX Live 2023+; needs beamer, tikz, pgfplots, tco
 * `\callback{lecture}{text}` — orange "You've seen this (…)" box tying a slide to an earlier CS 4774 lecture.
 * `\keybox{text}` — navy key-idea box.
 * `userbox` / `modelbox[color]` — chat-style prompt/response boxes.
+* `\emc{text}` — colored (orange italic) emphasis.
+* `\partslide{n}{title}{tagline}` — section divider with the agenda and the current part highlighted.
 * `\src{text}` — now a no-op (per-slide credits were removed; kept so old calls compile).
 
 ## Things to finalize before Thursday
 
-1. **Slide 9 (base vs. chat):** uses the real GPT-3 vs. InstructGPT "moon landing" example from OpenAI's 2022 announcement.
-2. **Slide 64 (Hands-on):** notebook 1 = DPO (TRL, Zephyr-7B-SFT-QLoRA on UltraFeedback), notebook 2 = GRPO with a
-   rule-based verifier. Natural spot for the 2–3 min live demo: right after this slide, run the GRPO notebook.
-3. **Slides 1 / 71:** affiliation line (department), email if you want it on the last slide.
-4. Optional: `\note{}` speaker notes; print with `\setbeameroption{show notes on second screen}`.
+1. **Hands-on slide:** notebook 1 = DPO (TRL, Zephyr-7B-SFT-QLoRA on UltraFeedback), notebook 2 = GRPO with a
+   rule-based verifier. Natural spot for the 2-3 min live demo: right after this slide, run the GRPO notebook.
+2. **Title / last slide:** add department and email if wanted.
+3. Optional: `\note{}` speaker notes; print with `\setbeameroption{show notes on second screen}`.
 
-## Timing (from the agenda slide)
+## Timing (planning estimate)
 
 Part 1: 6 · Part 2: 13 · Part 3: 6 · Part 4: 8 · Part 5: 8 · Part 6: 9 · Part 7: 13 · Part 8: 3  → 66 min + demo/Q&A buffer.

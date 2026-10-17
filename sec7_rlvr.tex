@@ -124,7 +124,7 @@ behaviors & only what was demonstrated & can \emph{discover} re-checking, backtr
   \item All right or all wrong $\Rightarrow$ $\hat A_i = 0$: no gradient. Learning happens where the model \emph{sometimes} succeeds.
 \end{itemize}
 \vspace{6pt}
-\callback{baselines and the advantage}{advantage = reward $-$ baseline; the baseline now comes from samples instead of a critic.}
+\callback{baselines and the advantage}{advantage = reward $-$ baseline; the baseline now comes from samples instead of a critic. Fine print: the group mean includes $r_i$ itself, so it is not quite independent of sample $i$ (a small bias; leaving $r_i$ out, as in RLOO, removes it).}
 \end{frame}
 
 \begin{frame}{GRPO step 2: a worked example}
