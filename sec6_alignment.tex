@@ -40,17 +40,18 @@ You don't. You \textbf{learn} it from human judgments, then optimize it with RL.
 
 \begin{frame}{Preference data at scale: UltraFeedback}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{figs/ultrafeedback.png}
+\includegraphics[width=0.86\textwidth]{figs/ultrafeedback.png}
 \end{center}
+\vspace{-4pt}
 \begin{itemize}\setlength{\itemsep}{4pt}
-  \item 60k prompts from many instruction datasets; 4 responses per prompt from different LLMs.
+  \item \href{https://arxiv.org/abs/2310.01377}{Cui et al., 2023}: 60k prompts from many instruction datasets, 4 responses per prompt from different LLMs.
   \item Each response rated by \textbf{GPT-4} on instruction-following, truthfulness, honesty, helpfulness (``RLAIF'': AI feedback instead of human feedback).
   \item Highest-scoring response = $y_w$; a random other one = $y_l$. This is the dataset in Colab notebook 1.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Step 2: a reward model = logistic regression on pairs}
-\textbf{Bradley--Terry model.} Each response gets a hidden score $r_\phi(x,y)\in\mathbb{R}$; the chance that humans prefer $y_w$ over $y_l$ is
+\textbf{\href{https://doi.org/10.2307/2334029}{Bradley--Terry model}.} Each response gets a hidden score $r_\phi(x,y)\in\mathbb{R}$; the chance that humans prefer $y_w$ over $y_l$ is
 \[
   P(y_w \succ y_l \mid x) = \sigma\big(r_\phi(x,y_w) - r_\phi(x,y_l)\big), \qquad \sigma(z) = \tfrac{1}{1+e^{-z}}
 \]
@@ -70,7 +71,7 @@ You don't. You \textbf{learn} it from human judgments, then optimize it with RL.
 \begin{column}{0.52\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/stiennon_rlhf.png}\\[2pt]
-\scriptsize Collect comparisons $\to$ train the reward model $\to$ train the policy with PPO (Stiennon et al., 2020; InstructGPT, 2022).
+\scriptsize Collect comparisons $\to$ train the reward model $\to$ train the policy with PPO (\href{https://arxiv.org/abs/2009.01325}{Stiennon et al., 2020}; \href{https://arxiv.org/abs/2203.02155}{Ouyang et al., 2022}).
 \end{column}
 \begin{column}{0.46\textwidth}
 \textbf{Objective:} the policy-gradient recipe with $R = r_\phi$:
@@ -90,7 +91,7 @@ You don't. You \textbf{learn} it from human judgments, then optimize it with RL.
 \begin{column}{0.56\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/instructgpt_results.png}\\[2pt]
-\scriptsize Human preference win rate against the 175B SFT model (InstructGPT, Ouyang et al., 2022).
+\scriptsize Human preference win rate against the 175B SFT model (InstructGPT, \href{https://arxiv.org/abs/2203.02155}{Ouyang et al., 2022}).
 \end{column}
 \begin{column}{0.42\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
@@ -109,7 +110,7 @@ You don't. You \textbf{learn} it from human judgments, then optimize it with RL.
 \vspace{-2pt}
 \begin{itemize}\setlength{\itemsep}{3pt}
   \item RLHF is heavy: a reward model, online sampling, PPO hyperparameters.
-  \item \textbf{Direct Preference Optimization} (2023): train the policy \emc{directly} on the preference pairs. No reward model, no sampling.
+  \item \textbf{Direct Preference Optimization} (\href{https://arxiv.org/abs/2305.18290}{Rafailov et al., 2023}): train the policy \emc{directly} on the preference pairs. No reward model, no sampling.
 \end{itemize}
 \end{frame}
 
@@ -130,7 +131,7 @@ You don't. You \textbf{learn} it from human judgments, then optimize it with RL.
 \begin{frame}{DPO in practice (Colab notebook 1)}
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figs/dpo_training_curves.png}\\[1pt]
-{\scriptsize Zephyr-7B (SFT) + UltraFeedback pairs, LoRA, one Colab GPU. Left: reward accuracy and margin. Right: implicit rewards $\hat r_\theta$ of the chosen and the rejected response.}
+{\scriptsize \href{https://arxiv.org/abs/2310.16944}{Zephyr-7B} (SFT) + UltraFeedback pairs, LoRA, one Colab GPU. Left: reward accuracy and margin. Right: implicit rewards $\hat r_\theta$ of the chosen and the rejected response.}
 \end{center}
 \vspace{-2pt}
 \begin{itemize}\setlength{\itemsep}{3pt}

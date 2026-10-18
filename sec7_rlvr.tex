@@ -7,13 +7,13 @@
 \begin{column}{0.52\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/o1_aime.png}\\[2pt]
-\scriptsize OpenAI o1 (2024): AIME accuracy grows with RL training compute (left) \emph{and} with thinking time at test time (right).
+\scriptsize \href{https://openai.com/index/learning-to-reason-with-llms/}{OpenAI o1 (2024)}: AIME accuracy grows with RL training compute (left) \emph{and} with thinking time at test time (right).
 \end{column}
 \begin{column}{0.46\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item A \textbf{reasoning model} writes a long chain of thought \emc{before} its final answer: chain-of-thought as a learned default.
-  \item \textbf{o1} (Sept.\ 2024): closed recipe, clear message: RL training + ``thinking time''.
-  \item \textbf{DeepSeek-R1} (Jan.\ 2025): open weights, open recipe: the algorithm is \textbf{GRPO}.
+  \item \textbf{o1} (\href{https://openai.com/index/learning-to-reason-with-llms/}{Sept.\ 2024}): closed recipe, clear message: RL training + ``thinking time''.
+  \item \textbf{DeepSeek-R1} (\href{https://arxiv.org/abs/2501.12948}{Jan.\ 2025}): open weights, open recipe: the algorithm is \textbf{GRPO}.
 \end{itemize}
 \end{column}
 \end{columns}
@@ -38,7 +38,7 @@
 \begin{column}{0.48\textwidth}
 \centering
 \includegraphics[width=0.95\textwidth]{figs/rlvr_diagram.png}\\[2pt]
-\scriptsize The RLVR loop (T\"ulu 3, 2024): prompts in, completions out, a verifier scores them, policy gradient updates $\theta$.
+\scriptsize The RLVR loop (\href{https://arxiv.org/abs/2411.15124}{T\"ulu 3, Lambert et al., 2024}): prompts in, completions out, a verifier scores them, policy gradient updates $\theta$.
 \end{column}
 \end{columns}
 \vspace{4pt}
@@ -71,7 +71,7 @@ behaviors & only what was demonstrated & can \emph{discover} re-checking, backtr
   \item Expensive: doubles memory and compute.
   \item Fragile: with one reward at the \emph{end} of a long chain, token-level value estimates are noisy.
 \end{itemize}
-\keybox{\textbf{GRPO} (DeepSeekMath, 2024): we already sample several responses per question, so let them be \emc{each other's baseline}. No critic.}
+\keybox{\textbf{GRPO} (\href{https://arxiv.org/abs/2402.03300}{DeepSeekMath, Shao et al., 2024}): we already sample several responses per question, so let them be \emc{each other's baseline}. No critic.}
 \end{column}
 \begin{column}{0.54\textwidth}
 \centering
@@ -180,7 +180,7 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \begin{column}{0.48\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/trl_grpo_visual.png}\\[2pt]
-\scriptsize What a GRPO trainer computes (Hugging Face TRL): completions $\to$ rewards $\to$ group-normalized advantages; policy vs.\ reference log-probs $\to$ KL; both $\to$ the objective.
+\scriptsize What a GRPO trainer computes (\href{https://huggingface.co/docs/trl}{Hugging Face TRL}): completions $\to$ rewards $\to$ group-normalized advantages; policy vs.\ reference log-probs $\to$ KL; both $\to$ the objective.
 \end{column}
 \end{columns}
 \end{frame}
@@ -210,7 +210,7 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \begin{column}{0.6\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/r1_aha.png}\\[2pt]
-\scriptsize An intermediate R1-Zero checkpoint, mid-solution (DeepSeek-AI, 2025).
+\scriptsize An intermediate R1-Zero checkpoint, mid-solution (\href{https://arxiv.org/abs/2501.12948}{DeepSeek-AI, 2025}).
 \end{column}
 \begin{column}{0.38\textwidth}
 \begin{itemize}\setlength{\itemsep}{7pt}
@@ -227,12 +227,12 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \begin{column}{0.52\textwidth}
 \centering
 \includegraphics[width=\textwidth]{figs/passk.png}\\[2pt]
-\scriptsize pass@$k$ (solved if \emph{any} of $k$ samples is correct) vs.\ $k$ on AIME24: the RL model wins at small $k$, the \emph{base} model catches up at large $k$ (Yue et al., 2025).
+\scriptsize pass@$k$ (solved if \emph{any} of $k$ samples is correct) vs.\ $k$ on AIME24: the RL model wins at small $k$, the \emph{base} model catches up at large $k$ (\href{https://arxiv.org/abs/2504.13837}{Yue et al., 2025}).
 \end{column}
 \begin{column}{0.46\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item \textbf{New reasoning, or sharper sampling?} Much of RLVR's gain is sampling efficiency; RL can also narrow the paths the model explores (``diversity collapse'').
-  \item \textbf{Exploration and diversity} of reasoning trajectories: entropy bonuses, asymmetric clipping and dynamic sampling (DAPO), prolonged RL with KL resets (ProRL).
+  \item \textbf{Exploration and diversity} of reasoning trajectories: entropy bonuses, asymmetric clipping and dynamic sampling (\href{https://arxiv.org/abs/2503.14476}{DAPO}), prolonged RL with KL resets (\href{https://arxiv.org/abs/2505.24864}{ProRL}).
   \item \textbf{Sparse, outcome-only rewards} vs.\ step-level rewards; reward hacking even with verifiers.
 \end{itemize}
 \end{column}
@@ -251,13 +251,13 @@ Rewards of the $G=8$ samples from step 1: \; $1,\,0,\,1,\,0,\,0,\,0,\,1,\,0$
 \textbf{Notebook 2: GRPO with a verifiable reward}
 \begin{itemize}\setlength{\itemsep}{2pt}
   \item Math problems + answer keys; rule-based checker: $r\in\{0,1\}$ + format reward.
-  \item TRL \texttt{GRPOTrainer}: sample $G$, score, group-normalize, clipped update + KL.
+  \item \href{https://huggingface.co/docs/trl}{TRL} \texttt{GRPOTrainer}: sample $G$, score, group-normalize, clipped update + KL.
 \end{itemize}
 \end{column}
 \begin{column}{0.45\textwidth}
 \centering
 \includegraphics[width=0.92\textwidth]{figs/simplerl_training_curve.png}\\[2pt]
-\scriptsize What to expect while GRPO trains: accuracy and response length rise together; self-reflection appears.
+\scriptsize What to expect while GRPO trains: accuracy and response length rise together; self-reflection appears (\href{https://arxiv.org/abs/2503.18892}{SimpleRL-Zoo, Zeng et al., 2025}).
 \end{column}
 \end{columns}
 \vspace{4pt}

@@ -14,7 +14,7 @@
   \draw[->,thick] (env.west) -- ++(-1.1,0) -- ++(0,2.4) -- (ag.west);
   \node[left,font=\scriptsize,align=right] at (-1.15,-1.2) {state $s_{t+1}$\\reward $r_{t+1}$};
 \end{tikzpicture}\\[4pt]
-\scriptsize The agent--environment loop (Sutton \& Barto).
+\scriptsize The agent--environment loop (\href{http://incompleteideas.net/book/the-book-2nd.html}{Sutton \& Barto, \emph{Reinforcement Learning: An Introduction}}).
 \end{column}
 \begin{column}{0.52\textwidth}
 \begin{itemize}\setlength{\itemsep}{5pt}
@@ -78,7 +78,7 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
   &= \E_{y\sim\pi_\theta(\cdot\mid x)}\Big[\, R(x,y)\; \nabla_\theta \log \pi_\theta(y\mid x) \,\Big] && \text{\small\color{midgray} an expectation: estimate it with samples}
 \end{align*}
 \vspace{-4pt}
-\textbf{REINFORCE} (Williams, 1992): sample a response $y$, then $\;\theta \leftarrow \theta + \alpha\, R(x,y)\, \nabla_\theta \log \pi_\theta(y\mid x)$.
+\textbf{REINFORCE} (\href{https://doi.org/10.1007/BF00992696}{Williams, 1992}): sample a response $y$, then $\;\theta \leftarrow \theta + \alpha\, R(x,y)\, \nabla_\theta \log \pi_\theta(y\mid x)$.
 \vspace{-2pt}
 \begin{columns}[T]
 \begin{column}{0.5\textwidth}
@@ -147,7 +147,7 @@ Goal: maximize $J(\theta)=\sum_y \pi_\theta(y\mid x)\,R(x,y)$. We cannot differe
 \begin{column}{0.55\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item The policy \emph{generates its own training data}: one step too far $\to$ garbage samples $\to$ worse step. (In supervised learning the next batch corrects a bad step.)
-  \item \textbf{PPO} (2017): per token, let $\rho_t = \dfrac{\pi_\theta(y_t\mid\cdot)}{\pi_{\text{old}}(y_t\mid\cdot)}$ and optimize
+  \item \textbf{PPO} (\href{https://arxiv.org/abs/1707.06347}{Schulman et al., 2017}): per token, let $\rho_t = \dfrac{\pi_\theta(y_t\mid\cdot)}{\pi_{\text{old}}(y_t\mid\cdot)}$ and optimize
   \[ \min\big(\rho_t A,\; \mathrm{clip}(\rho_t, 1-\epsilon, 1+\epsilon)\,A\big). \]
   \item Once a token's probability has moved by $\pm\epsilon$ (e.g.\ 20\%), it gets no further push this round.
 \end{itemize}
