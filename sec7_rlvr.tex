@@ -95,15 +95,18 @@ behaviors & only what was demonstrated & can \emph{discover} re-checking, backtr
   \node[draw,rounded corners,fill=softgray,minimum width=2.4cm,minimum height=0.9cm,align=center] (q) at (0,0) {\textbf{question $q$}\\``Find all $a$ such that \dots''};
   \node[draw,rounded corners,fill=uvanavy!12,minimum width=2.1cm,minimum height=0.9cm,align=center] (pi) at (3.0,0) {\textbf{policy $\pi_{\text{old}}$}\\sample with $\tau>0$};
   \draw[->,thick] (q) -- (pi);
+  % fan-out as a bus: one trunk, one branch per sample
+  \draw[thick] (pi.east) -- (4.35,0);
+  \draw[thick] (4.35,1.75) -- (4.35,-1.75);
   \foreach \i/\y/\r/\c in {1/1.75/1/okgreen,2/1.25/0/badred,3/0.75/1/okgreen,4/0.25/0/badred,5/-0.25/0/badred,6/-0.75/0/badred,7/-1.25/1/okgreen,8/-1.75/0/badred}{
-    \node[draw,rounded corners,fill=white,minimum width=2.3cm,minimum height=0.38cm,font=\tiny] (o\i) at (6.1,\y) {response $o_{\i}$ \; (reasoning \dots\ answer)};
-    \draw[->] (pi.east) -- (o\i.west);
-    \node[draw,rounded corners,fill=\c!15,draw=\c!70!black,minimum width=0.75cm,minimum height=0.34cm,font=\tiny] (r\i) at (8.8,\y) {$r_{\i}=\r$};
+    \node[draw,rounded corners,fill=white,minimum width=2.3cm,minimum height=0.38cm,font=\tiny] (o\i) at (6.7,\y) {response $o_{\i}$ \; (reasoning \dots\ answer)};
+    \draw[->] (4.35,\y) -- (o\i.west);
+    \node[draw,rounded corners,fill=\c!15,draw=\c!70!black,minimum width=0.75cm,minimum height=0.34cm,font=\tiny] (r\i) at (9.4,\y) {$r_{\i}=\r$};
     \draw[->] (o\i) -- (r\i);
   }
-  \node[draw,rounded corners,fill=uvaorange!15,draw=uvaorange!80!black,minimum width=1.3cm,minimum height=0.8cm,align=center] (v) at (10.7,0.9) {\textbf{verifier}\\answer key};
-  \draw[->,dashed,uvaorange!80!black] (v.west) -- (r3.east);
-  \node[font=\scriptsize,align=center] at (10.7,-0.9) {$G = 8$ samples\\3 correct, 5 wrong};
+  \node[draw,rounded corners,fill=uvaorange!15,draw=uvaorange!80!black,minimum width=1.4cm,minimum height=0.55cm,align=center,font=\tiny] (v) at (9.4,2.45) {\textbf{verifier} (answer key)\\scores every response};
+  \draw[->,uvaorange!80!black] (v.south) -- (r1.north);
+  \node[font=\scriptsize,align=center] at (11.3,0) {$G = 8$ samples\\3 correct, 5 wrong};
 \end{tikzpicture}
 \end{center}
 \begin{itemize}\setlength{\itemsep}{4pt}
