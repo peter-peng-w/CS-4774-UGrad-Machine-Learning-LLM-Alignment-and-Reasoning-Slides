@@ -3,8 +3,8 @@
 \partslide{4}{Supervised fine-tuning}{following instructions}
 
 \begin{frame}{Pretrain once, fine-tune many times}
-\begin{columns}[T]
-\begin{column}{0.52\textwidth}
+\begin{columns}[c]
+\begin{column}{0.5\textwidth}
 \begin{itemize}\setlength{\itemsep}{6pt}
   \item \textbf{Pretraining} is done \emc{once}, by a few labs: trillions of tokens, months of compute, tens of millions of dollars.
   \item \textbf{Fine-tuning} \emc{continues training the same network} on a small, targeted dataset. Hours on one GPU.
@@ -12,16 +12,18 @@
   \item The fine-tuning we care about today is \textbf{instruction tuning}: turning the text continuer into an assistant.
 \end{itemize}
 \end{column}
-\begin{column}{0.46\textwidth}
+\begin{column}{0.48\textwidth}
 \centering
-\begin{tikzpicture}[font=\scriptsize,>=Latex,node distance=5mm]
-  \node[draw,rounded corners,fill=uvablue!12,minimum width=3cm,minimum height=0.9cm,align=center] (pre) {\textbf{pretraining}\\web text, $10^{13}$ tokens};
-  \node[draw,rounded corners,fill=softgray,below=of pre,minimum width=3cm,align=center] (th0) {pretrained weights $\theta_0$};
-  \node[draw,rounded corners,fill=okgreen!12,below=of th0,minimum width=3cm,minimum height=0.9cm,align=center] (ft) {\textbf{fine-tuning}\\$10^4$--$10^6$ examples};
-  \node[draw,rounded corners,fill=softgray,below=of ft,minimum width=3cm,align=center] (th) {fine-tuned weights $\theta$};
+\begin{tikzpicture}[font=\small,>=Latex,node distance=5mm,
+  box/.style={draw,rounded corners,minimum width=3.3cm,align=center},
+  note/.style={text width=2.7cm,font=\footnotesize,text=uvanavy!80!black,align=left}]
+  \node[box,fill=uvablue!12,minimum height=1cm] (pre) {\textbf{pretraining}\\web text, $10^{13}$ tokens};
+  \node[box,fill=softgray,below=of pre] (th0) {pretrained weights $\theta_0$};
+  \node[box,fill=okgreen!12,below=of th0,minimum height=1cm] (ft) {\textbf{fine-tuning}\\$10^4$--$10^6$ examples};
+  \node[box,fill=softgray,below=of ft] (th) {fine-tuned weights $\theta$};
   \draw[->,thick] (pre) -- (th0); \draw[->,thick] (th0) -- (ft); \draw[->,thick] (ft) -- (th);
-  \node[right=2mm of th0,text width=2.4cm,font=\tiny,text=midgray] {same architecture,\\same softmax head,\\same loss function};
-  \node[right=2mm of ft,text width=2.4cm,font=\tiny,text=midgray] {smaller learning rate,\\a few epochs};
+  \node[note,right=3mm of th0] {same architecture,\\same softmax head,\\same loss function};
+  \node[note,right=3mm of ft] {small learning rate,\\a few epochs};
 \end{tikzpicture}
 \end{column}
 \end{columns}
